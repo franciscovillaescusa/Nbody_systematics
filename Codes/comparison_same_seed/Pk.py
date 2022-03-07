@@ -43,8 +43,8 @@ print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
 # compute density field
 delta = np.zeros((grid,grid,grid), dtype=np.float32)
 MASL.MA(pos, delta, BoxSize, MAS, W=None, verbose=True)
-delta /= np.mean(delta, dtype=np.float64);  #delta -= 1.0
-delta = np.log10(1.0+delta)
+delta /= np.mean(delta, dtype=np.float64);  delta -= 1.0
+#delta = np.log10(1.0+delta)
 
 # compute power spectrum
 Pk = PKL.Pk(delta, BoxSize, axis, MAS=None, threads=threads, verbose=True)

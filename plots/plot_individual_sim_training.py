@@ -152,7 +152,6 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
     # read data
     data = np.loadtxt(fin)
 
-
     # compute statistics
     abs_error = np.zeros(2, dtype=np.float32)
     rel_error = np.zeros(2, dtype=np.float32)
@@ -165,11 +164,10 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
         bias[i]      = np.mean(data[:,6+i] - data[:,i])
         chi2[i]      = np.mean((data[:,6+i]-data[:,i])**2/data[:,12+i]**2)
 
-
     num_sims     = data.shape[0]/8/splits
     unique_maps  = num_sims*splits
     maps_per_sim = 15*8
-    unique_indexes = np.arange(num_sims)*maps_per_sim #add some offset here
+    unique_indexes = np.arange(num_sims, dtype=np.int32)*maps_per_sim #add some offset here
 
     fig = figure(figsize=(16,6))
     ax1 = fig.add_subplot(121) 
@@ -182,7 +180,6 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
         ax.set_xlabel(r'${\rm True}$',      fontsize=18)
     for ax in [ax1]:
         ax.set_ylabel(r'${\rm Prediction}$',fontsize=18)
-
 
     Om = data[:,0]
     indexes = np.argsort(Om)
@@ -206,13 +203,13 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
                         elinewidth=1, capsize=0, linestyle='None', c=time_color[k]) 
 
         ax.plot([minimum,maximum],[minimum,maximum], ls='-', c='k')
-        ax.text(0.72,0.27, r"$\epsilon=%.4f$"%abs_error[i], fontsize=16, color='k',
+        ax.text(0.69,0.27, r"$\epsilon=%.4f\,(%.2f$"%(abs_error[i],100*rel_error[i])+'%)',
+                fontsize=16, color='k', transform=ax.transAxes)
+        #ax.text(0.72,0.20, r"$\bar{\epsilon}=%.3f$"%rel_error[i]+'%', fontsize=16, 
+        #        color='k', transform=ax.transAxes)
+        ax.text(0.70,0.20, r"$b=%.4f$"%bias[i], fontsize=16, color='k',
                 transform=ax.transAxes)
-        ax.text(0.72,0.20, r"$\bar{\epsilon}=%.3f$"%rel_error[i]+'%', fontsize=16, 
-                color='k', transform=ax.transAxes)
-        ax.text(0.72,0.13, r"$b=%.4f$"%bias[i], fontsize=16, color='k',
-                transform=ax.transAxes)
-        ax.text(0.70,0.06, r"$\chi^2=%.2f$"%chi2[i], fontsize=16, color='k',
+        ax.text(0.69,0.13, r"$\chi^2=%.2f$"%chi2[i], fontsize=16, color='k',
                 transform=ax.transAxes)
 
     #place a label in the plot
