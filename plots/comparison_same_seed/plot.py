@@ -118,7 +118,7 @@ rcParams["mathtext.fontset"]='cm'
 ####################################################################
 
 x_min, x_max = 0.3, 150.0
-y_min, y_max = 1e-8, 1
+y_min, y_max = 7e-4, 1e3
 
 
 fig=figure(figsize=(7,5))
@@ -137,22 +137,27 @@ for ax in [ax1,ax2]:
 
 ax1.set_yscale('log')
 ax1.set_ylim([y_min,y_max])
-ax2.set_ylim([0.8,1.2])
+ax2.set_ylim([0.95,1.03])
 
 ax2.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$P(k)\,[(h^{-1}{\rm Mpc})^3]$',fontsize=18)
 ax2.set_ylabel(r'${\rm ratio}$',fontsize=18)
 
 
-f_out='Pk_comparison_log.pdf'
+f_out='Pk_comparison.pdf'
 
-f1 = 'Pk_Gadget.txt'
-f2 = 'Pk_Ramses.txt'
-f3 = 'Pk_Abacus.txt'
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/comparison_same_seed'
+f1 = '%s/Pk_Gadget.txt'%root
+f2 = '%s/Pk_Ramses.txt'%root
+f3 = '%s/Pk_Abacus.txt'%root
+f4 = '%s/Pk_PKDGrav.txt'%root
+f5 = '%s/Pk_cube.txt'%root
 
 data1 = np.loadtxt(f1) 
 data2 = np.loadtxt(f2) 
 data3 = np.loadtxt(f3) 
+data4 = np.loadtxt(f4) 
+data5 = np.loadtxt(f5) 
 
 ax2.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
 ax2.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
@@ -160,9 +165,13 @@ ax2.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
 p1,=ax1.plot(data1[:,0],data1[:,1],linestyle='-',marker='None',c='r')
 p2,=ax1.plot(data2[:,0],data2[:,1],linestyle='-',marker='None',c='b')
 p3,=ax1.plot(data3[:,0],data3[:,1],linestyle='-',marker='None',c='g')
+p4,=ax1.plot(data4[:,0],data4[:,1],linestyle='-',marker='None',c='purple')
+p5,=ax1.plot(data5[:,0],data5[:,1],linestyle='-',marker='None',c='brown')
 ax2.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
 ax2.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
 ax2.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='g')
+ax2.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+ax2.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='brown')
 
 ax1.plot([32,32],[y_min,y_max],linestyle='--',marker='None',c='k')
 ax2.plot([32,32],[0.9,1.03],linestyle='--',marker='None',c='k')
@@ -173,10 +182,11 @@ ax2.plot([32,32],[0.9,1.03],linestyle='--',marker='None',c='k')
 ax1.text(0.85,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3],
+ax1.legend([p1,p2,p3,p4,p5],
            ["Gadget",
             "Ramses",
-            "Abacus"],
+            "Abacus",
+            "PKDGrav","Cube"],
            loc=0,prop={'size':18},ncol=1,frameon=True)
             
             #columnspacing=2,labelspacing=2)
