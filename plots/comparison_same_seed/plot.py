@@ -151,7 +151,7 @@ f1 = '%s/Pk_Gadget.txt'%root
 f2 = '%s/Pk_Ramses.txt'%root
 f3 = '%s/Pk_Abacus.txt'%root
 f4 = '%s/Pk_PKDGrav.txt'%root
-f5 = '%s/Pk_cube.txt'%root
+f5 = '%s/Pk_cube_nc1024_pp2.txt'%root
 
 data1 = np.loadtxt(f1) 
 data2 = np.loadtxt(f2) 
@@ -183,10 +183,7 @@ ax1.text(0.85,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
 ax1.legend([p1,p2,p3,p4,p5],
-           ["Gadget",
-            "Ramses",
-            "Abacus",
-            "PKDGrav","Cube"],
+           ["Gadget", "Ramses", "Abacus", "PKDGrav","CUBEP3M"],
            loc=0,prop={'size':18},ncol=1,frameon=True)
             
             #columnspacing=2,labelspacing=2)
