@@ -134,9 +134,9 @@ ax1=fig.add_subplot(111)
 #ax1.set_ylabel(r'$P(k)\,[(h^{-1}{\rm Mpc})^3]$',fontsize=18)
 
 
-f_out='Ramses_df.pdf'
-f1 = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/cubes/Ramses.npy'
-label = 'Ramses'
+f_out='Ramses_HR_df.pdf'
+f1 = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/cubes/Ramses_HR.npy'
+label = 'Ramses_HR'
 
 df = np.load(f1)
 df = np.mean(df[:62,:,:],axis=0)
