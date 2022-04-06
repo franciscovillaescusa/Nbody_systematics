@@ -230,14 +230,15 @@ beta1 = 0.5
 beta2 = 0.999
 
 # simulation suite
-sim = 'Gadget'  
+sim = 'COLA'  
 
 # data parameters
-f_maps          = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget_Nbody+Hydro/Maps_Mtot_IllustrisTNG_Nbody+Hydro_LH_z=0.00.npy']
+root            = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps'
+f_maps          = ['%s/maps_%s/Images_M_%s_LH_z=0.00.npy'%(root,sim,sim)]
 f_maps_norm     = [None]
-f_params        = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget_Nbody+Hydro/params_IllustrisTNG_Nbody+Hydro_LH.txt'
+f_params        = '%s/maps_%s/params_%s.txt'%(root,sim,sim)
 
-root_out        = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/Results' #output folder
+root_out        = '%s/Results'%root #output folder
 seed            = 1               #random seed to initially mix the maps
 splits          = 15              #number of maps per simulation
 monopole        = True  #keep the monopole of the maps (True) or remove it (False)
@@ -246,7 +247,7 @@ rot_flip_in_mem = True  #whether rotations and flipings are kept in memory
 smoothing       = 0  #Gaussian smoothing in pixels units
 label           = '%s_smoothing_%d'%(arch,smoothing)
 #storage_m       = 'sqlite:///my_database.db'
-storage_m       = 'sqlite:////mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/databases/Gadget_Nbody_plus_Hydro_LH_%s_smoothing_%d.db'%(arch,smoothing)
+storage_m       = 'sqlite:///%s/databases/%s_LH_%s_smoothing_%d.db'%(root,sim,arch,smoothing)
 
 # training parameters
 batch_size  = 128

@@ -169,7 +169,7 @@ model_rank = 0 #0 is the best model, 1 is the second best model,...etc
 # data parameters
 mode            = 'all'
 seed            = 1
-batch_size      = 64
+batch_size      = 32
 splits          = 15
 monopole_train  = True
 monopole_test   = True
@@ -178,17 +178,16 @@ smoothing_test  = 0
 smoothing_train = 0
 
 # data parameters II
-sim         = 'Ramses'
-redshift    = 0.0
-root_data   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/maps/maps_%s'%sim
-f_maps      = ['%s/Images_M_%s_LH_z=%.2f.npy'%(root_data,sim,redshift)]
-f_params    = '%s/params_%s.txt'%(root_data,sim)
-#f_maps      = ['%s/data/Maps_Mtot_Nbody_IllustrisTNG_LH_z=0.0.npy'%root]
-#f_params    = '%s/data/params_Nbody_IllustrisTNG.txt'%root
-f_maps_norm = ['%s/data/Maps_Mtot_Nbody_IllustrisTNG_LH_z=0.0.npy'%root]
+root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps'
+sim_train   = 'Gadget'
+sim_test    = 'Ramses2'
+z           = 0.0
+f_maps      = ['%s/maps_%s/Images_M_%s_LH_z=%.2f.npy'%(root_maps,sim_test,sim_test,z)]
+f_maps_norm = ['%s/maps_%s/Images_M_%s_LH_z=%.2f.npy'%(root_maps,sim_train,sim_train,z)]
+f_params    = '%s/maps_%s/params_%s.txt'%(root_maps,sim_test,sim_test)
 
 # results
-fresults = 'Trained_Gadget_tested_%s_z=%.2f.txt'%(sim,redshift)
+fresults = 'Trained_%s_tested_%s_z=%.2f.txt'%(sim_train,sim_test,z)
 #######################################################################################
 
 # use GPUs if available

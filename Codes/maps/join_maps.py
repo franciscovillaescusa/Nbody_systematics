@@ -3,8 +3,8 @@ import sys,os
 
 ##################################### INPUT #########################################
 root         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data'
-sim          = 'COLA'
-realizations = 1000
+sim          = 'Ramses_HR'
+realizations = 10
 splits       = 15
 redshift     = 0.0
 pixels       = 256

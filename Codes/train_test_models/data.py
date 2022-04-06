@@ -68,6 +68,8 @@ class make_dataset_multifield2_errors():
 
         # get the total number of sims and maps
         params_sims = np.loadtxt(f_params) #simulations parameters, NOT maps parameters
+        if params_sims.ndim==1:
+            params_sims = np.expand_dims(params_sims, axis=0)
         total_sims, total_maps, num_params = \
                 params_sims.shape[0], params_sims.shape[0]*splits, params_sims.shape[1]
         params = np.zeros((total_maps, num_params), dtype=np.float32)
@@ -208,6 +210,8 @@ class make_dataset_multifield2():
 
         # get the total number of sims and maps
         params_sims = np.loadtxt(f_params) #simulations parameters, NOT maps parameters
+        if params_sims.ndim==1:
+            params_sims = np.expand_dims(params_sims, axis=0)
         total_sims, total_maps, num_params = \
                 params_sims.shape[0], params_sims.shape[0]*splits, params_sims.shape[1]
         params = np.zeros((total_maps, num_params), dtype=np.float32)
@@ -348,6 +352,8 @@ class make_dataset_multifield():
 
         # get the total number of sims and maps
         params_sims = np.loadtxt(f_params) #simulations parameters, NOT maps parameters
+        if params_sims.ndim==1:
+            params_sims = np.expand_dims(params_sims, axis=0)
         total_sims, total_maps, num_params = \
                 params_sims.shape[0], params_sims.shape[0]*splits, params_sims.shape[1]
         params_maps = np.zeros((total_maps, num_params), dtype=np.float32)

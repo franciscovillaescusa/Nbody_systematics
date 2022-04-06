@@ -115,19 +115,12 @@ for snapnum in snapnums:
                 R_      = R[indexes]
                 pos_    = np.ascontiguousarray(pos_[:,[axis_x, axis_y]])
 
-                # project cdm velocity*mass into a 2D map
-                #Vtot = np.zeros((grid,grid), dtype=np.float64)
-                #MASL.projected_voronoi(Vtot, pos_, vel_*M_, R_, x_min, y_min, BoxSize,
-                #                       tracers, r_divisions, periodic, verbose)
-
                 # project mass into a 2D map
                 Mtot = np.zeros((grid,grid), dtype=np.float64)
                 MASL.projected_voronoi(Mtot, pos_, M_, R_, x_min, y_min, BoxSize,
                                        tracers, r_divisions, periodic, verbose)
 
                 maps_M[num] = Mtot
-                #maps_V[num] = Vtot/Mtot
 
         np.save(fout1, maps_M)
-        #np.save(fout2, maps_V)
 
