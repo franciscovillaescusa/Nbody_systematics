@@ -134,7 +134,7 @@ ax1=fig.add_subplot(111)
 #ax1.set_ylabel(r'$P(k)\,[(h^{-1}{\rm Mpc})^3]$',fontsize=18)
 
 root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/comparison'
-sim   = 'PKDGrav'
+sim   = 'Ramses_HR'
 f_out = '%s_slice.pdf'%sim
 f1    = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
 label = sim
