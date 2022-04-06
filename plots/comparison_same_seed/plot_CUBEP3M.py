@@ -155,6 +155,7 @@ f5 = '%s/Pk_CUBEP3M_nc1024_pp0.txt'%root
 f6 = '%s/Pk_CUBEP3M_nc1024_pp2.txt'%root
 f7 = '%s/Pk_CUBEP3M_nc1024_pp2_rsoft05.txt'%root
 f8 = '%s/Pk_CUBEP3M_nc2048_pp2.txt'%root
+f9 = '%s/Pk_CUBEP3M_nc1024_pp3.txt'%root
 
 data1 = np.loadtxt(f1) 
 data2 = np.loadtxt(f2) 
@@ -164,6 +165,7 @@ data5 = np.loadtxt(f5)
 data6 = np.loadtxt(f6) 
 data7 = np.loadtxt(f7) 
 data8 = np.loadtxt(f8) 
+data9 = np.loadtxt(f9) 
 
 ax2.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
 ax2.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
@@ -176,6 +178,7 @@ p5,=ax1.plot(data5[:,0],data5[:,1],linestyle='-',marker='None',c='brown')
 p6,=ax1.plot(data6[:,0],data6[:,1],linestyle='-',marker='None',c='cyan')
 p7,=ax1.plot(data7[:,0],data7[:,1],linestyle='-',marker='None',c='gold')
 p8,=ax1.plot(data8[:,0],data8[:,1],linestyle='-',marker='None',c='pink')
+p9,=ax1.plot(data9[:,0],data9[:,1],linestyle='-',marker='None',c='k')
 ax2.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
 ax2.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
 ax2.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='g')
@@ -184,6 +187,7 @@ ax2.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='brown')
 ax2.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
 ax2.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='gold')
 ax2.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='pink')
+ax2.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='k')
 
 ax1.plot([32,32],[y_min,y_max],linestyle='--',marker='None',c='k')
 ax2.plot([32,32],[0.9,1.03],linestyle='--',marker='None',c='k')
@@ -194,11 +198,11 @@ ax2.plot([32,32],[0.9,1.03],linestyle='--',marker='None',c='k')
 ax1.text(0.85,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8],
+ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8,p9],
            ["Gadget", "nc512_pp0", "nc512_pp1", "nc512_pp2",
             "nc1024_pp0", "nc1024_pp2", "nc1024_pp2_rsoft0.5",
-            "nc2048_pp2"],
-           loc=0,prop={'size':12},ncol=1,frameon=True)
+            "nc2048_pp2", "nc1024_pp3"],
+           loc=0,prop={'size':10},ncol=1,frameon=True)
             
             #columnspacing=2,labelspacing=2)
 
