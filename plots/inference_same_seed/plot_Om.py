@@ -133,6 +133,9 @@ ax1.set_ylim([y_min,y_max])
 #ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$\Omega_{\rm m}$',fontsize=18)
 
+#ax1.xaxis.set_minor_locator(AutoMinorLocator(4))
+#ax1.xaxis.set_major_formatter( NullFormatter() )   #unset x label 
+ax1.set_xticks([])
 
 f_out='Inference_same_seed_Om.pdf'
 

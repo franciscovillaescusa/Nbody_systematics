@@ -132,6 +132,7 @@ ax1.set_xlim([x_min,x_max])
 
 #ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$\sigma_8$',fontsize=18)
+ax1.set_xticks([])
 
 
 f_out='Inference_same_seed_s8.pdf'
