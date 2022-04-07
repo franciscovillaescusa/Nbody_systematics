@@ -158,6 +158,8 @@ elems = 15
 x = np.arange(elems)
 indexes = x*8
 
+print(plt.rcParams['axes.prop_cycle'].by_key()['color'])
+
 p1=ax1.errorbar(x,data1[indexes,7],yerr=data1[indexes,13],lw=1,fmt='o',ms=2,
                 elinewidth=1,capsize=5,linestyle='None') 
 p2=ax1.errorbar(x+elems*1+1,data2[indexes,7],yerr=data2[indexes,13],lw=1,fmt='o',ms=2,
