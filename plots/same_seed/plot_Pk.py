@@ -148,10 +148,10 @@ f_out='Pk_comparison.pdf'
 
 root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/same_seed'
 f1 = '%s/Pk_Gadget.txt'%root
-f2 = '%s/Pk_Ramses.txt'%root
-f3 = '%s/Pk_Ramses_HR.txt'%root
-f4 = '%s/Pk_Abacus.txt'%root
-f5 = '%s/Pk_PKDGrav.txt'%root
+f2 = '%s/Pk_PKDGrav.txt'%root
+f3 = '%s/Pk_Abacus.txt'%root
+f4 = '%s/Pk_Ramses.txt'%root
+f5 = '%s/Pk_Ramses_HR.txt'%root
 f6 = '%s/Pk_CUBEP3M_nc512_pp2.txt'%root
 
 data1 = np.loadtxt(f1) 
@@ -164,18 +164,18 @@ data6 = np.loadtxt(f6)
 ax2.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
 ax2.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
 
-p1,=ax1.plot(data1[:,0],data1[:,1],linestyle='-',marker='None',c='r')
-p2,=ax1.plot(data2[:,0],data2[:,1],linestyle='-',marker='None',c='b')
-p3,=ax1.plot(data3[:,0],data3[:,1],linestyle='-',marker='None',c='cyan')
-p4,=ax1.plot(data4[:,0],data4[:,1],linestyle='-',marker='None',c='g')
-p5,=ax1.plot(data5[:,0],data5[:,1],linestyle='-',marker='None',c='purple')
-p6,=ax1.plot(data6[:,0],data6[:,1],linestyle='-',marker='None',c='orange')
-ax2.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
-ax2.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
-ax2.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
-ax2.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='g')
-ax2.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
-ax2.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
+p1,=ax1.plot(data1[:,0],data1[:,1],linestyle='-',marker='None',c=u'#1f77b4')
+p2,=ax1.plot(data2[:,0],data2[:,1],linestyle='-',marker='None',c=u'#ff7f0e')
+p3,=ax1.plot(data3[:,0],data3[:,1],linestyle='-',marker='None',c=u'#2ca02c')
+p4,=ax1.plot(data4[:,0],data4[:,1],linestyle='-',marker='None',c=u'#d62728')
+p5,=ax1.plot(data5[:,0],data5[:,1],linestyle='-',marker='None',c=u'#9467bd')
+p6,=ax1.plot(data6[:,0],data6[:,1],linestyle='-',marker='None',c=u'#8c564b')
+ax2.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#1f77b4')
+ax2.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#ff7f0e')
+ax2.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#2ca02c')
+ax2.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#d62728')
+ax2.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#9467bd')
+ax2.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#8c564b')
 
 ax1.plot([32,32],[y_min,y_max],linestyle='--',marker='None',c='k')
 ax2.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
@@ -187,7 +187,8 @@ ax1.text(0.85,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
 ax1.legend([p1,p2,p3,p4,p5,p6],
-           ["Gadget", "Ramses", "Ramses HR", "Abacus", "PKDGrav","CUBEP3M"],
+           ["Gadget", "PKDGrav", "Abacus",
+            "Ramses", "Ramses HR", "CUBEP3M"],
            loc=0,prop={'size':15},ncol=1,frameon=True)
             
             #columnspacing=2,labelspacing=2)
