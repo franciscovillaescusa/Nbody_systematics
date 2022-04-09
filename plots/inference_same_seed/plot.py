@@ -158,7 +158,7 @@ f4 = '%s/Trained_Gadget_tested_PKDGrav_HR_z=0.00.txt'%root
 f5 = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
 f6 = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
 f7 = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
-f8 = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
+f8 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
 
 data1 = np.loadtxt(f1) 
 data2 = np.loadtxt(f2) 
