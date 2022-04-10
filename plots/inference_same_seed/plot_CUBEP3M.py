@@ -117,11 +117,11 @@ rcParams["mathtext.fontset"]='cm'
 #ax1.add_artist(polygon)
 ####################################################################
 
-x_min, x_max = -2, 96
+x_min, x_max = -2, 128
 y_min, y_max = 0.05, 0.45
 
 
-fig=figure(figsize=(13,5))
+fig=figure(figsize=(15,5))
 ax1=fig.add_subplot(211) 
 ax2=fig.add_subplot(212) 
 
@@ -156,7 +156,9 @@ f2 = '%s/Trained_Gadget_tested_CUBEP3M_nc512_pp1_z=0.00.txt'%root
 f3 = '%s/Trained_Gadget_tested_CUBEP3M_nc512_pp2_z=0.00.txt'%root
 f4 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp0_z=0.00.txt'%root
 f5 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
-f6 = '%s/Trained_Gadget_tested_CUBEP3M_nc2048_pp2_z=0.00.txt'%root
+f6 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp3_z=0.00.txt'%root
+f7 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_rsoft0.5_z=0.00.txt'%root
+f8 = '%s/Trained_Gadget_tested_CUBEP3M_nc2048_pp2_z=0.00.txt'%root
 
 data1 = np.loadtxt(f1) 
 data2 = np.loadtxt(f2) 
@@ -164,6 +166,8 @@ data3 = np.loadtxt(f3)
 data4 = np.loadtxt(f4) 
 data5 = np.loadtxt(f5) 
 data6 = np.loadtxt(f6) 
+data7 = np.loadtxt(f7) 
+data8 = np.loadtxt(f8) 
 
 elems = 15
 x = np.arange(elems)
@@ -181,6 +185,10 @@ p5=ax1.errorbar(x+elems*4+4,data5[indexes,6],yerr=data5[indexes,12],lw=1,fmt='o'
                 elinewidth=1,capsize=5,linestyle='None', c='brown')
 p6=ax1.errorbar(x+elems*5+5,data6[indexes,6],yerr=data6[indexes,12],lw=1,fmt='o',ms=2,
                 elinewidth=1,capsize=5,linestyle='None',c='fuchsia') 
+p7=ax1.errorbar(x+elems*6+6,data7[indexes,6],yerr=data7[indexes,12],lw=1,fmt='o',ms=2,
+                elinewidth=1,capsize=5,linestyle='None',c='gold') 
+p8=ax1.errorbar(x+elems*7+7,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o',ms=2,
+                elinewidth=1,capsize=5,linestyle='None',c='k') 
 
 ax2.errorbar(x+elems*0+0,data1[indexes,7],yerr=data1[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None', c='b') 
@@ -193,7 +201,11 @@ ax2.errorbar(x+elems*3+3,data4[indexes,7],yerr=data4[indexes,13],lw=1,fmt='o',ms
 ax2.errorbar(x+elems*4+4,data5[indexes,7],yerr=data5[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None', c='brown')
 ax2.errorbar(x+elems*5+5,data6[indexes,7],yerr=data6[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None',c='fuchsia') 
+             elinewidth=1,capsize=5,linestyle='None',c='fuchsia')
+ax2.errorbar(x+elems*6+6,data7[indexes,7],yerr=data7[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None',c='gold') 
+ax2.errorbar(x+elems*7+7,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None',c='k')  
 
 
 
@@ -203,14 +215,16 @@ ax2.errorbar(x+elems*5+5,data6[indexes,7],yerr=data6[indexes,13],lw=1,fmt='o',ms
 #ax1.text(0.2,0.1, r"$z=4.0$", fontsize=22, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3,p4,p5,p6],
+ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8],
            [r"${\rm nc512\,\,pp0}$",
             r"${\rm nc512\,\,pp1}$",
             r"${\rm nc512\,\,pp2}$",
             r"${\rm nc1024\,\,pp0}$",
             r"${\rm nc1024\,\,pp2}$",
+            r"${\rm nc1024\,\,pp3}$",
+            r"${\rm nc1024\,\,pp2\,\,rsoft0.5}$",
             r"${\rm nc2048\,\,pp2}$"],
-           loc=0,prop={'size':14},ncol=3,frameon=True, bbox_to_anchor=(0.2, 0.97))
+           loc=0,prop={'size':14},ncol=4,frameon=True, bbox_to_anchor=(0.2, 0.97))
             
             #columnspacing=2,labelspacing=2)
 
