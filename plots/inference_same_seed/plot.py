@@ -151,25 +151,30 @@ ax2.plot([-10,200],[0.834, 0.834],  lw=1, c='k')
 
 root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models'
 
-f1 = '%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root
-f2 = '%s/Trained_Gadget_tested_Gadget_HR_z=0.00.txt'%root
-f3 = '%s/Trained_Gadget_tested_PKDGrav_z=0.00.txt'%root
-f4 = '%s/Trained_Gadget_tested_PKDGrav_HR_z=0.00.txt'%root
-f5 = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
-f6 = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
-f7 = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
-f8 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
-f9 = '%s/Trained_Gadget_tested_Gizmo_z=0.00.txt'%root
+f1  = '%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root
+f2  = '%s/Trained_Gadget_tested_Gadget_HR_z=0.00.txt'%root
+f3  = '%s/Trained_Gadget_tested_PKDGrav_z=0.00.txt'%root
+f4  = '%s/Trained_Gadget_tested_PKDGrav_HR_z=0.00.txt'%root
+f5  = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
+f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
+f7  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
+f8  = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
+f9  = '%s/Trained_Gadget_tested_Gizmo_z=0.00.txt'%root
+f10 = '%s/Trained_Gadget_tested_Gizmo_64_z=0.00.txt'%root
+f11 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
 
-data1 = np.loadtxt(f1) 
-data2 = np.loadtxt(f2) 
-data3 = np.loadtxt(f3) 
-data4 = np.loadtxt(f4) 
-data5 = np.loadtxt(f5) 
-data6 = np.loadtxt(f6) 
-data7 = np.loadtxt(f7) 
-data8 = np.loadtxt(f8) 
-data9 = np.loadtxt(f9) 
+data1  = np.loadtxt(f1) 
+data2  = np.loadtxt(f2) 
+data3  = np.loadtxt(f3) 
+data4  = np.loadtxt(f4) 
+data5  = np.loadtxt(f5) 
+data6  = np.loadtxt(f6) 
+data7  = np.loadtxt(f7) 
+data8  = np.loadtxt(f8) 
+data9  = np.loadtxt(f9) 
+data10 = np.loadtxt(f10) 
+data11 = np.loadtxt(f11) 
+
 
 elems = 15
 x = np.arange(elems)
@@ -186,18 +191,23 @@ p4=ax1.errorbar(x+elems*1+1,data4[indexes,6],yerr=data4[indexes,12],lw=1,fmt='o'
                 elinewidth=1,capsize=5,linestyle='None', c='darkred') 
 
 p5=ax1.errorbar(x+elems*2+2,data5[indexes,6],yerr=data5[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None', c='purple')
+                elinewidth=1,capsize=5,linestyle='None', c='violet')
+p6=ax1.errorbar(x+elems*2+2,data6[indexes,6],yerr=data6[indexes,12],lw=1,fmt='o',
+                ms=2,elinewidth=1,capsize=5,linestyle='None', c='darkviolet')
  
-p6=ax1.errorbar(x+elems*3+3,data6[indexes,6],yerr=data6[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
 p7=ax1.errorbar(x+elems*3+3,data7[indexes,6],yerr=data7[indexes,12],lw=1,fmt='o',ms=2,
+                elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
+p8=ax1.errorbar(x+elems*3+3,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o',ms=2,
                 elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
 
-p8=ax1.errorbar(x+elems*4+4,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None', c='orange') 
+p9=ax1.errorbar(x+elems*4+4,data9[indexes,6],yerr=data9[indexes,12],lw=1,fmt='o',
+                ms=2,elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
+p10=ax1.errorbar(x+elems*3+3,data10[indexes,6],yerr=data10[indexes,12],lw=1,fmt='o',
+                 ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
 
-p9=ax1.errorbar(x+elems*5+5,data9[indexes,6],yerr=data9[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None', c='brown') 
+p11=ax1.errorbar(x+elems*5+5,data11[indexes,6],yerr=data11[indexes,12],lw=1,fmt='o',
+                 ms=2,elinewidth=1,capsize=5,linestyle='None', c='orange') 
+
 
 
 
@@ -212,35 +222,40 @@ ax2.errorbar(x+elems*1+1,data4[indexes,7],yerr=data4[indexes,13],lw=1,fmt='o',ms
              elinewidth=1,capsize=5,linestyle='None', c='darkred') 
 
 ax2.errorbar(x+elems*2+2,data5[indexes,7],yerr=data5[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='purple')
+             elinewidth=1,capsize=5,linestyle='None', c='violet')
+ax2.errorbar(x+elems*2+2,data6[indexes,7],yerr=data6[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None', c='darkviolet')
  
-ax2.errorbar(x+elems*3+3,data6[indexes,7],yerr=data6[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
 ax2.errorbar(x+elems*3+3,data7[indexes,7],yerr=data7[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
+ax2.errorbar(x+elems*3+3,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
 
-ax2.errorbar(x+elems*4+4,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms=2,
+ax2.errorbar(x+elems*4+4,data9[indexes,7],yerr=data9[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
+ax2.errorbar(x+elems*3+3,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
+             ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
+
+ax2.errorbar(x+elems*5+5,data11[indexes,7],yerr=data11[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None', c='orange') 
-
-ax2.errorbar(x+elems*5+5,data9[indexes,7],yerr=data9[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='brown') 
-
 
 #place a label in the plot
 #ax1.text(0.2,0.1, r"$z=4.0$", fontsize=22, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3,p4,p6,p7,p5,p8,p9],
+ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11],
            [r"${\rm Gadget}$",
             r"${\rm Gadget\,\,HR}$",
             r"${\rm PKDGrav}$",
             r"${\rm PKDGrav\,\,HR}$",
+            r"${\rm Abacus}$",
+            r"${\rm Abacus\,\,HR}$",
             r"${\rm Ramses}$",
             r"${\rm Ramses\,\,HR}$",
-            r"${\rm Abacus}$",
-            r"${\rm CUBEP3M}$",
-            r"${\rm Gizmo}$"],
-           loc=0,prop={'size':14},ncol=5,frameon=True, bbox_to_anchor=(0.04, 0.97))
+            r"${\rm Gizmo\,\,32}$",
+            r"${\rm Gizmo\,\,64}$",
+            r"${\rm CUBEP3M}$"],
+           loc=0,prop={'size':12},ncol=6,frameon=True, bbox_to_anchor=(0.01, 0.97))
             
             #columnspacing=2,labelspacing=2)
 
