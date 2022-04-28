@@ -160,7 +160,7 @@ f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
 f7  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
 f8  = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
 f9  = '%s/Trained_Gadget_tested_Gizmo_z=0.00.txt'%root
-f10 = '%s/Trained_Gadget_tested_Gizmo_64_z=0.00.txt'%root
+f10 = '%s/Trained_Gadget_tested_Gizmo_HR_z=0.00.txt'%root
 f11 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
 
 data1  = np.loadtxt(f1) 
@@ -202,7 +202,7 @@ p8=ax1.errorbar(x+elems*3+3,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o'
 
 p9=ax1.errorbar(x+elems*4+4,data9[indexes,6],yerr=data9[indexes,12],lw=1,fmt='o',
                 ms=2,elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
-p10=ax1.errorbar(x+elems*3+3,data10[indexes,6],yerr=data10[indexes,12],lw=1,fmt='o',
+p10=ax1.errorbar(x+elems*4+4,data10[indexes,6],yerr=data10[indexes,12],lw=1,fmt='o',
                  ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
 
 p11=ax1.errorbar(x+elems*5+5,data11[indexes,6],yerr=data11[indexes,12],lw=1,fmt='o',
@@ -233,7 +233,7 @@ ax2.errorbar(x+elems*3+3,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms
 
 ax2.errorbar(x+elems*4+4,data9[indexes,7],yerr=data9[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
-ax2.errorbar(x+elems*3+3,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
+ax2.errorbar(x+elems*4+4,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
              ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
 
 ax2.errorbar(x+elems*5+5,data11[indexes,7],yerr=data11[indexes,13],lw=1,fmt='o',ms=2,
@@ -252,8 +252,8 @@ ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11],
             r"${\rm Abacus\,\,HR}$",
             r"${\rm Ramses}$",
             r"${\rm Ramses\,\,HR}$",
-            r"${\rm Gizmo\,\,32}$",
-            r"${\rm Gizmo\,\,64}$",
+            r"${\rm Gizmo}$",
+            r"${\rm Gizmo\,\,HR}$",
             r"${\rm CUBEP3M}$"],
            loc=0,prop={'size':12},ncol=6,frameon=True, bbox_to_anchor=(0.01, 0.97))
             
