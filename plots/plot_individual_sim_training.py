@@ -124,10 +124,11 @@ splits = 15
 #########################################################
 
 # get the name of the files
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes'
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models'
 f_ins = ['%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root,
          '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root,
          '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root,
+         '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root,
          '%s/Trained_Gadget_Nbody+Hydro_tested_Gadget_z=0.00.txt'%root,
          '%s/Trained_Gadget_Nbody+Hydro_tested_Abacus_z=0.00.txt'%root,
          '%s/Trained_Gadget_Nbody+Hydro_tested_Ramses_z=0.00.txt'%root]
@@ -135,6 +136,7 @@ f_ins = ['%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root,
 f_outs = ['Trained_Gadget_tested_Gadget_z=0.00.pdf',
           'Trained_Gadget_tested_Abacus_z=0.00.pdf',
           'Trained_Gadget_tested_Ramses_z=0.00.pdf',
+          'Trained_Gadget_tested_CUBEP3M_z=0.00.pdf',
           'Trained_Gadget_Nbody+Hydro_tested_Gadget_z=0.00.pdf',
           'Trained_Gadget_Nbody+Hydro_tested_Abacus_z=0.00.pdf',
           'Trained_Gadget_Nbody+Hydro_tested_Ramses_z=0.00.pdf']
@@ -142,6 +144,7 @@ f_outs = ['Trained_Gadget_tested_Gadget_z=0.00.pdf',
 labels = ['Train on Gadget ----> test on Gadget',
           'Train on Gadget ----> test on Abacus',
           'Train on Gadget ----> test on Ramses',
+          'Train on Gadget ----> test on CUBEP3M',
           'Train on Gadget Nbody+Hydro ----> test on Gadget',
           'Train on Gadget Nbody+Hydro ----> test on Abacus',
           'Train on Gadget Nbody+Hydro ----> test on Ramses']
