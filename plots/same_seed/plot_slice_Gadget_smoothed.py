@@ -6,6 +6,7 @@ from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 from matplotlib.ticker import AutoMinorLocator
 from matplotlib.colors import LogNorm
 from matplotlib.patches import Ellipse
+import scipy.ndimage
 rcParams["mathtext.fontset"]='cm'
 
 ############################### figure ###########################
@@ -117,18 +118,20 @@ rcParams["mathtext.fontset"]='cm'
 #ax1.add_artist(polygon)
 ####################################################################
 
-fig=figure()
-ax1=fig.add_subplot(111) 
+fig = figure()
+ax1 = fig.add_subplot(111) 
 
-root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
-sim   = 'Enzo2'
-f_out = '%s_slice.pdf'%sim
-f1    = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
-label = sim
+smoothing = 1
+root      = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
+sim       = 'Gadget'
+f_out     = '%s_smoothed_%d_slice.pdf'%(sim,smoothing)
+f1        = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
+label     = sim
 slice_num = 4
 
 df = np.load(f1)
 df = df[slice_num]
+df = scipy.ndimage.gaussian_filter(df, smoothing, mode='wrap')
 print(df.shape)
 
 print('%.3e < df < %.3e'%(np.min(df), np.max(df)))
