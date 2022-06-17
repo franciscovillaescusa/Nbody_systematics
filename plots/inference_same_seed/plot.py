@@ -149,7 +149,7 @@ f_out='Inference_same_seed.pdf'
 ax1.plot([-10,200],[0.3175,0.3175], lw=1, c='k')
 ax2.plot([-10,200],[0.834, 0.834],  lw=1, c='k')
 
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models'
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models/same_seed'
 
 f1  = '%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root
 f2  = '%s/Trained_Gadget_tested_Gadget_HR_z=0.00.txt'%root
@@ -159,9 +159,10 @@ f5  = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
 f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
 f7  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
 f8  = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
-f9  = '%s/Trained_Gadget_tested_Gizmo_z=0.00.txt'%root
+f9  = '%s/Trained_Gadget_tested_Enzo2_z=0.00.txt'%root
 f10 = '%s/Trained_Gadget_tested_Gizmo_HR_z=0.00.txt'%root
-f11 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
+#f11 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
+f11 = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
 
 data1  = np.loadtxt(f1) 
 data2  = np.loadtxt(f2) 
@@ -201,7 +202,7 @@ p8=ax1.errorbar(x+elems*3+3,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o'
                 elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
 
 p9=ax1.errorbar(x+elems*4+4,data9[indexes,6],yerr=data9[indexes,12],lw=1,fmt='o',
-                ms=2,elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
+                ms=2,elinewidth=1,capsize=5,linestyle='None', c='grey') 
 p10=ax1.errorbar(x+elems*4+4,data10[indexes,6],yerr=data10[indexes,12],lw=1,fmt='o',
                  ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
 
@@ -232,7 +233,7 @@ ax2.errorbar(x+elems*3+3,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms
              elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
 
 ax2.errorbar(x+elems*4+4,data9[indexes,7],yerr=data9[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='lightcoral') 
+             elinewidth=1,capsize=5,linestyle='None', c='grey') 
 ax2.errorbar(x+elems*4+4,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
              ms=2, elinewidth=1,capsize=5,linestyle='None', c='brown') 
 
@@ -252,7 +253,7 @@ ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11],
             r"${\rm Abacus\,\,HR}$",
             r"${\rm Ramses}$",
             r"${\rm Ramses\,\,HR}$",
-            r"${\rm Gizmo}$",
+            r"${\rm Enzo}$",
             r"${\rm Gizmo\,\,HR}$",
             r"${\rm CUBEP3M}$"],
            loc=0,prop={'size':12},ncol=6,frameon=True, bbox_to_anchor=(0.01, 0.97))
