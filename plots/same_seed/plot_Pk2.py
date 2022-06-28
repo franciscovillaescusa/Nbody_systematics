@@ -126,7 +126,7 @@ ax1=fig.add_subplot(111)
 
 ax1.set_xscale('log')
 ax1.set_xlim([x_min,x_max])
-ax1.set_ylim([0.95,1.05])
+ax1.set_ylim([0.93,1.07])
 
 ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
@@ -135,40 +135,54 @@ ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
 f_out='Pk_ratio.pdf'
 
 root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/same_seed'
-f1 = '%s/Pk_Gadget.txt'%root
-f2 = '%s/Pk_PKDGrav.txt'%root
-f3 = '%s/Pk_Abacus.txt'%root
-f4 = '%s/Pk_Ramses.txt'%root
-f5 = '%s/Pk_Ramses_HR.txt'%root
-f6 = '%s/Pk_CUBEP3M_nc1024_pp2.txt'%root
-f7 = '%s/Pk_Gizmo.txt'%root
-f8 = '%s/Pk_Gadget_HR.txt'%root
-f9 = '%s/Pk_PKDGrav_HR.txt'%root
+f1   = '%s/Pk_Gadget.txt'%root
+f2   = '%s/Pk_Gadget_HR.txt'%root
+f3   = '%s/Pk_PKDGrav.txt'%root
+f4   = '%s/Pk_PKDGrav_HR.txt'%root
+f5   = '%s/Pk_Abacus.txt'%root
+f6   = '%s/Pk_Ramses.txt'%root
+f7   = '%s/Pk_Ramses_HR.txt'%root
+f8   = '%s/Pk_CUBEP3M_nc1024_pp2.txt'%root
+f9   = '%s/Pk_Gizmo.txt'%root
+f10  = '%s/Pk_Enzo3.txt'%root
 
-data1 = np.loadtxt(f1) 
-data2 = np.loadtxt(f2) 
-data3 = np.loadtxt(f3) 
-data4 = np.loadtxt(f4) 
-data5 = np.loadtxt(f5) 
-data6 = np.loadtxt(f6) 
-data7 = np.loadtxt(f7) 
-data8 = np.loadtxt(f8) 
-data9 = np.loadtxt(f9) 
+data1  = np.loadtxt(f1) 
+data2  = np.loadtxt(f2) 
+data3  = np.loadtxt(f3) 
+data4  = np.loadtxt(f4) 
+data5  = np.loadtxt(f5) 
+data6  = np.loadtxt(f6) 
+data7  = np.loadtxt(f7) 
+data8  = np.loadtxt(f8) 
+data9  = np.loadtxt(f9) 
+data10 = np.loadtxt(f10) 
 
 ax1.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
 ax1.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
 
+# Gadget
 p1,=ax1.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
-p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='darkblue')
+#p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='darkblue')
 
-p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
-p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='darkred')
+# PKDGrav
+p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
+#p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='darkred')
 
-p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
-p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='lightgreen')
-p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
-p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
-p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
+# Abacus
+p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+
+# Ramses
+p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
+#p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
+
+# CUBEP3M
+p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
+
+# Gizmo
+p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
+
+# Enzo
+p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='grey')
 
 ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 
@@ -178,15 +192,22 @@ ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 ax1.text(0.05,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7],
+ax1.legend([p1,p3,p5,p6,p8,p9,p10],
+           ["Gadget", "PKDGrav",
+            "Abacus", "Ramses", 
+            "CUBEP3M", "Gizmo", 
+            "Enzo"],
+           loc=3,prop={'size':10},ncol=3,frameon=True)
+"""
+ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
            ["Gadget", "Gadget HR", 
             "PKDGrav", "PKDGrav HR", 
             "Abacus", "CUBEP3M", 
             "Ramses", "Ramses HR", 
-            "Gizmo"],
+            "Gizmo", "Enzo"],
            loc=0,prop={'size':10},ncol=5,frameon=True, bbox_to_anchor=(0.87, 1.03))
-            
-            #columnspacing=2,labelspacing=2)
+"""            
+  
 
 
 
