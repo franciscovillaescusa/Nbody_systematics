@@ -142,7 +142,7 @@ f4   = '%s/Pk_PKDGrav_HR.txt'%root
 f5   = '%s/Pk_Abacus.txt'%root
 f6   = '%s/Pk_Ramses.txt'%root
 f7   = '%s/Pk_Ramses_HR.txt'%root
-f8   = '%s/Pk_CUBEP3M_nc1024_pp2.txt'%root
+f8   = '%s/Pk_cube_nc1024_pp2.txt'%root
 f9   = '%s/Pk_Gizmo.txt'%root
 f10  = '%s/Pk_Enzo3.txt'%root
 

@@ -126,7 +126,7 @@ ax1=fig.add_subplot(111)
 
 ax1.set_xscale('log')
 ax1.set_xlim([x_min,x_max])
-ax1.set_ylim([0.8,1.2])
+ax1.set_ylim([0.3,1.35])
 
 ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
@@ -142,27 +142,40 @@ f4   = '%s/Pk_log_Ramses.txt'%root
 f5   = '%s/Pk_log_cube_nc1024_pp2.txt'%root
 f6   = '%s/Pk_log_Enzo3.txt'%root
 
+f7   = '%s/Pk_log_Gadget_HR.txt'%root
+f8   = '%s/Pk_log_PKDGrav_HR.txt'%root
+f9   = '%s/Pk_log_Abacus_HR.txt'%root
+f10  = '%s/Pk_log_Ramses_HR.txt'%root
+
 data1  = np.loadtxt(f1) 
 data2  = np.loadtxt(f2) 
 data3  = np.loadtxt(f3) 
 data4  = np.loadtxt(f4) 
 data5  = np.loadtxt(f5) 
 data6  = np.loadtxt(f6) 
+data7  = np.loadtxt(f7) 
+data8  = np.loadtxt(f8) 
+data9  = np.loadtxt(f9) 
+data10 = np.loadtxt(f10) 
 
 #ax1.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
 #ax1.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
 
 # Gadget
 p1,=ax1.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
+p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='--',marker='None',c='b')
 
 # PKDGrav
 p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
+p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='--',marker='None',c='r')
 
 # Abacus
 p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='--',marker='None',c='purple')
 
 # Ramses
 p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
+p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='--',marker='None',c='green')
 
 # CUBEP3M
 p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
@@ -170,7 +183,7 @@ p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='ora
 # Enzo
 p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
 
-ax1.plot([32,32],[0.7,1.3],linestyle='--',marker='None',c='k')
+ax1.plot([32,32],[0.0,2.3],linestyle='--',marker='None',c='k')
 
 
 
@@ -178,10 +191,9 @@ ax1.plot([32,32],[0.7,1.3],linestyle='--',marker='None',c='k')
 ax1.text(0.3, 0.93, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3,p4,p5,p6],
-           ["Gadget", "PKDGrav",
-            "Abacus", "Ramses", 
-            "CUBEP3M", "Enzo"],
+ax1.legend([p1,p2,p3,p4,p5,p7,p8,p9,p10,p6],
+           ["Gadget", "PKDGrav", "Abacus", "Ramses", "CUBEP3M",
+            "Gadget HR", "PKDGrav HR", "Abacus HR", "Ramses HR", "Enzo"],
            loc=3,prop={'size':14},ncol=2,frameon=True)
 """
 ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
