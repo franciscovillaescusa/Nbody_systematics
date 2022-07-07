@@ -117,81 +117,97 @@ rcParams["mathtext.fontset"]='cm'
 #ax1.add_artist(polygon)
 ####################################################################
 
-x_min, x_max = 0.3, 150.0
+x_min, x_max = 0.3, 100
 y_min, y_max = 7e-4, 1e3
 
 
-fig=figure(figsize=(7,5))
-gs = gridspec.GridSpec(2,1,height_ratios=[5,2])
-ax1=plt.subplot(gs[0])
-ax2=plt.subplot(gs[1])
-#ax1=fig.add_subplot(111) 
-subplots_adjust(left=None, bottom=None, right=None, top=None,
-                wspace=0.0, hspace=0.03)
+fig=figure(figsize=(10/1.3,5/1.3))
+ax1=fig.add_subplot(111) 
 
-ax1.xaxis.set_major_formatter( NullFormatter() )   #unset x label 
+ax1.set_xscale('log')
+ax1.set_xlim([x_min,x_max])
+ax1.set_ylim([0.93,1.07])
 
-for ax in [ax1,ax2]:
-    ax.set_xscale('log')
-    ax.set_xlim([x_min,x_max])
-
-ax1.set_yscale('log')
-ax1.set_ylim([y_min,y_max])
-ax2.set_ylim([0.95,1.05])
-
-ax2.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
-ax1.set_ylabel(r'$P(k)\,[(h^{-1}{\rm Mpc})^3]$',fontsize=18)
-ax2.set_ylabel(r'${\rm ratio}$',fontsize=18)
+ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
+ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
 
 
-f_out='Pk_comparison.pdf'
+f_out='Pk_ratio.pdf'
 
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/same_seed'
-f1 = '%s/Pk_Gadget.txt'%root
-f2 = '%s/Pk_PKDGrav.txt'%root
-f3 = '%s/Pk_Abacus.txt'%root
-f4 = '%s/Pk_Ramses.txt'%root
-f5 = '%s/Pk_Ramses_HR.txt'%root
-f6 = '%s/Pk_CUBEP3M_nc512_pp2.txt'%root
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Results/Pk'
+f1   = '%s/Pk_Gadget.txt'%root
+f2   = '%s/Pk_Gadget_HR.txt'%root
+f3   = '%s/Pk_PKDGrav.txt'%root
+f4   = '%s/Pk_PKDGrav_HR.txt'%root
+f5   = '%s/Pk_Abacus.txt'%root
+f6   = '%s/Pk_Ramses.txt'%root
+f7   = '%s/Pk_Ramses_HR.txt'%root
+f8   = '%s/Pk_CUBEP3M.txt'%root
+f9   = '%s/Pk_Gizmo.txt'%root
+f10  = '%s/Pk_Enzo3.txt'%root
 
-data1 = np.loadtxt(f1) 
-data2 = np.loadtxt(f2) 
-data3 = np.loadtxt(f3) 
-data4 = np.loadtxt(f4) 
-data5 = np.loadtxt(f5) 
-data6 = np.loadtxt(f6) 
+data1  = np.loadtxt(f1) 
+data2  = np.loadtxt(f2) 
+data3  = np.loadtxt(f3) 
+data4  = np.loadtxt(f4) 
+data5  = np.loadtxt(f5) 
+data6  = np.loadtxt(f6) 
+data7  = np.loadtxt(f7) 
+data8  = np.loadtxt(f8) 
+data9  = np.loadtxt(f9) 
+data10 = np.loadtxt(f10) 
 
-ax2.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
-ax2.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
+ax1.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
+ax1.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
 
-p1,=ax1.plot(data1[:,0],data1[:,1],linestyle='-',marker='None',c=u'#1f77b4')
-p2,=ax1.plot(data2[:,0],data2[:,1],linestyle='-',marker='None',c=u'#ff7f0e')
-p3,=ax1.plot(data3[:,0],data3[:,1],linestyle='-',marker='None',c=u'#2ca02c')
-p4,=ax1.plot(data4[:,0],data4[:,1],linestyle='-',marker='None',c=u'#d62728')
-p5,=ax1.plot(data5[:,0],data5[:,1],linestyle='-',marker='None',c=u'#9467bd')
-p6,=ax1.plot(data6[:,0],data6[:,1],linestyle='-',marker='None',c=u'#8c564b')
-ax2.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#1f77b4')
-ax2.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#ff7f0e')
-ax2.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#2ca02c')
-ax2.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#d62728')
-ax2.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#9467bd')
-ax2.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c=u'#8c564b')
+# Gadget
+p1,=ax1.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
+#p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='darkblue')
 
-ax1.plot([32,32],[y_min,y_max],linestyle='--',marker='None',c='k')
-ax2.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
+# PKDGrav
+p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
+#p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='darkred')
+
+# Abacus
+p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+
+# Ramses
+p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
+#p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
+
+# CUBEP3M
+p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
+
+# Gizmo
+p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
+
+# Enzo
+p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
+
+ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 
 
 
 #place a label in the plot
-ax1.text(0.85,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
+ax1.text(0.05,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p2,p3,p4,p5,p6],
-           ["Gadget", "PKDGrav", "Abacus",
-            "Ramses", "Ramses HR", "CUBEP3M"],
-           loc=0,prop={'size':15},ncol=1,frameon=True)
-            
-            #columnspacing=2,labelspacing=2)
+ax1.legend([p1,p3,p5,p6,p8,p9,p10],
+           ["Gadget", "PKDGrav",
+            "Abacus", "Ramses", 
+            "CUBEP3M", "Gizmo", 
+            "Enzo"],
+           loc=3,prop={'size':10},ncol=3,frameon=True)
+"""
+ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
+           ["Gadget", "Gadget HR", 
+            "PKDGrav", "PKDGrav HR", 
+            "Abacus", "CUBEP3M", 
+            "Ramses", "Ramses HR", 
+            "Gizmo", "Enzo"],
+           loc=0,prop={'size':10},ncol=5,frameon=True, bbox_to_anchor=(0.87, 1.03))
+"""            
+  
 
 
 

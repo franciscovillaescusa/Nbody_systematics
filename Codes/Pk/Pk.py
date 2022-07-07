@@ -6,12 +6,13 @@ import readgadget
 import pynbody
 import h5py, yt
 import units_library as UL
-from michaels_functions import center_and_r_vir, remove_bulk_velocity, read_unit_from_info
+from michaels_functions import remove_bulk_velocity, read_unit_from_info
 #from astropy.table import Table
 import asdf
 
 rho_crit = (UL.units()).rho_crit #h^2 Msun/Mpc^3
 
+# routine to read PKDGrav snapshots
 def read_tipsy(name, offset=0, count=-1):
     """
     Reads out particles from a Tipsy snapshot file
@@ -41,56 +42,63 @@ def read_tipsy(name, offset=0, count=-1):
 
 
 # This routine computes the power spectrum given the positions of the particles
-def compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout):
+def compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log):
 
     # compute density field
     delta = np.zeros((grid,grid,grid), dtype=np.float32)
     MASL.MA(pos, delta, BoxSize, MAS, W=None, verbose=True)
     delta /= np.mean(delta, dtype=np.float64);  delta -= 1.0
-    #delta = np.log10(1.0+delta)
+    if log:  delta = np.log10(2.0 + delta)
 
     # compute power spectrum
     Pk = PKL.Pk(delta, BoxSize, axis, MAS=None, threads=threads, verbose=True)
     np.savetxt(fout, np.transpose([Pk.k3D, Pk.Pk[:,0]]))
 
 #################################### INPUT ###########################################
-root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed'
+root     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed'
+root_out = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Results/Pk'
+log      = True #whether compute standard Pk(False) or Pk of log of field(True)
 
+if log:  suffix = 'log_'
+else:    suffix = ''
+
+# Gadget
 snap1 = '%s/Gadget/snap_033.hdf5'%root
-fout1 = 'Pk_Gadget.txt'
+snap2 = '%s/Gadget_HR/snap_005.hdf5'%root
+fout1 = '%s/Pk_%sGadget.txt'%(root_out,suffix)
+fout2 = '%s/Pk_%sGadget_HR.txt'%(root_out,suffix)
 
-snap2 = '%s/Ramses/output_00035'%root
-fout2 = 'Pk_Ramses.txt'
+# Ramses
+snap3 = '%s/Ramses/output_00035'%root
+snap4 = '%s/Ramses_HR/output_00035'%root
+fout3 = '%s/Pk_%sRamses.txt'%(root_out,suffix)
+fout4 = '%s/Pk_%sRamses_HR.txt'%(root_out,suffix)
 
-snap3 = '%s/Ramses_HR/output_00035'%root
-fout3 = 'Pk_Ramses_HR.txt'
+# Abacus
+snap5 = '%s/Abacus/z0.000.asdf'%root
+snap6 = '%s/Abacus_HR/z0.000.asdf'%root
+fout5 = '%s/Pk_%sAbacus.txt'%(root_out,suffix)
+fout6 = '%s/Pk_%sAbacus_HR.txt'%(root_out,suffix)
 
-snap4 = '%s/Abacus/z0.000.asdf'%root
-fout4 = 'Pk_Abacus.txt'
+# PKDGrav
+snap7 = '%s/PKDGrav/run.00100'%root
+snap8 = '%s/PKDGrav_HR/run.00100'%root
+fout7 = '%s/Pk_%sPKDGrav.txt'%(root_out,suffix)
+fout8 = '%s/Pk_%sPKDGrav_HR.txt'%(root_out,suffix)
 
-snap5 = '%s/PKDGrav/run.00100'%root
-fout5 = 'Pk_PKDGrav.txt'
+# CUBEP3M
+snap9  = '%s/CUBEP3M/nc1024_pp_range2.npy'%root
+snap10 = '%s/CUBEP3M/nc2048_pp_range2_ic_np512/0.000x.npy'%root
+fout9  = '%s/Pk_%sCUBEP3M.txt'%(root_out,suffix)
+fout10 = '%s/Pk_%sCUBEP3M_HR.txt'%(root_out,suffix)
 
-snap6 = '%s/CUBEP3M/nc1024_pp_range2.npy'%root
-fout6 = 'Pk_cube_nc1024_pp2.txt'
+# Enzo
+snap11 = '%s/Enzo/amr_14/RD0007/RD0007'%root
+fout11 = '%s/Pk_%sEnzo4.txt'%(root_out,suffix)
 
-snap7 = '%s/PKDGrav_HR/run.00100'%root
-fout7 = 'Pk_PKDGrav_HR.txt'
-
-snap8 = '%s/Gadget_HR/snap_005.hdf5'%root
-fout8 = 'Pk_Gadget_HR.txt'
-
-snap9 = '%s/Gizmo/snap_005.hdf5'%root
-fout9 = 'Pk_Gizmo.txt'
-
-snap10 = '%s/Enzo/amr_14/RD0007/RD0007'%root
-fout10 = 'Pk_Enzo4.txt'
-
-snap11 = '%s/Abacus_HR/z0.000.asdf'%root
-fout11 = 'Pk_Abacus_HR.txt'
-
-snap12 = '%s/CUBEP3M/nc2048_pp_range2_ic_np512/0.000x.npy'%root
-fout12 = 'Pk_cube_HR_nc2048_pp2.txt'
+# Gizmo
+snap12 = '%s/Gizmo/snap_005.hdf5'%root
+fout12 = '%s/Pk_%sGizmo.txt'%(root_out,suffix)
 
 # Pk parameters
 grid    = 512
@@ -99,216 +107,102 @@ axis    = 0
 threads = 1
 ######################################################################################
 
-
 ############ Gadget #############
-# read header
-ptype    = [1] 
-header   = readgadget.header(snap1)
-BoxSize  = header.boxsize/1e3  #Mpc/h
-Nall     = header.nall         #Total number of particles
-Masses   = header.massarr*1e10 #Masses of the particles in Msun/h
-Omega_m  = header.omega_m      #value of Omega_m
-Omega_l  = header.omega_l      #value of Omega_l
-h        = header.hubble       #value of h
-redshift = header.redshift     #redshift of the snapshot
-Hubble   = 100.0*np.sqrt(Omega_m*(1.0+redshift)**3+Omega_l)#Value of H(z) in km/s/(Mpc/h)
+for snap,fout in zip([snap1,snap2], [fout1,fout2]):
+    header  = readgadget.header(snap)
+    BoxSize = header.boxsize/1e3  #Mpc/h
+    pos = readgadget.read_block(snap, "POS ", [1])/1e3 #positions in Mpc/h
+    print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
+    print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
+    print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
-# read positions, velocities and IDs of the particles
-pos = readgadget.read_block(snap1, "POS ", ptype)/1e3 #positions in Mpc/h
-print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
-print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
-print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
+############# Ramses ############
+for snap,fout in zip([snap3,snap4],[fout3,fout4]):
 
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout1)
+    # read header
+    data = pynbody.load(snap)
+    data.physical_units()
+    omega_b, omega_m, unit_l, unit_d, unit_t = read_unit_from_info(data)
+    unit_v = unit_l/unit_t
+    unit_b = np.sqrt(4*np.pi*unit_d)*unit_v
+    print(unit_l, unit_d, unit_t, unit_b)
+    print(data.properties.keys())
+    Omega_m  = data.properties['omegaM0']
+    Omega_l  = data.properties['omegaL0']
+    h        = data.properties['h']
+    redshift = 1.0/data.properties['a'] - 1.0
+    BoxSize  = data.properties['boxsize'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
 
+    # read the positions of the dark matter particles
+    pos = data.dm['pos'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
+    pos = pos.astype(np.float32)
+    print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
+    print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
+    print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
 
-############ Gadget_HR #############
-# read header
-ptype    = [1] 
-header   = readgadget.header(snap8)
-BoxSize  = header.boxsize/1e3  #Mpc/h
-Nall     = header.nall         #Total number of particles
-Masses   = header.massarr*1e10 #Masses of the particles in Msun/h
-Omega_m  = header.omega_m      #value of Omega_m
-Omega_l  = header.omega_l      #value of Omega_l
-h        = header.hubble       #value of h
-redshift = header.redshift     #redshift of the snapshot
-Hubble   = 100.0*np.sqrt(Omega_m*(1.0+redshift)**3+Omega_l)#Value of H(z) in km/s/(Mpc/h)
+    # compute Pk
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
-# read positions, velocities and IDs of the particles
-pos = readgadget.read_block(snap8, "POS ", ptype)/1e3 #positions in Mpc/h
-print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
-print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
-print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
+############# Abacus ############
+for snap,fout in zip([snap5,snap6],[fout5,fout6]):
+    BoxSize = 25.0 #Mpc/h
+    af      = asdf.open(snap)
+    pos     = af['data']['pos'] + BoxSize/2.0
+    meta    = af['meta']
+    #print(meta)
+    print(np.min(pos[:,0]), np.max(pos[:,0]))
+    print(np.min(pos[:,1]), np.max(pos[:,1]))
+    print(np.min(pos[:,2]), np.max(pos[:,2]))
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout8)
-
-
-############ Gizmo #############
-# read header
-ptype    = [1] 
-#header   = readgadget.header(snap9)
-#BoxSize  = header.boxsize/1e3  #Mpc/h
-#Nall     = header.nall         #Total number of particles
-#Masses   = header.massarr*1e10 #Masses of the particles in Msun/h
-#Omega_m  = header.omega_m      #value of Omega_m
-#Omega_l  = header.omega_l      #value of Omega_l
-#h        = header.hubble       #value of h
-#redshift = header.redshift     #redshift of the snapshot
-#Hubble   = 100.0*np.sqrt(Omega_m*(1.0+redshift)**3+Omega_l)#Value of H(z) in km/s/(Mpc/h)
-
-# read positions, velocities and IDs of the particles
-BoxSize = 25.0 #Mpc/h
-f = h5py.File(snap9, 'r')
-pos = f['PartType1/Coordinates'][:]/1e3
-pos = pos.astype(np.float32)
-print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
-print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
-print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout9)
-
-
-
-
-############ Ramses ###########
-data = pynbody.load(snap2)
-data.physical_units()
-omega_b, omega_m, unit_l, unit_d, unit_t = read_unit_from_info(data)
-unit_v = unit_l/unit_t
-unit_b = np.sqrt(4*np.pi*unit_d)*unit_v
-print(unit_l, unit_d, unit_t, unit_b)
-print(data.properties.keys())
-Omega_m  = data.properties['omegaM0']
-Omega_l  = data.properties['omegaL0']
-h        = data.properties['h']
-redshift = 1.0/data.properties['a'] - 1.0
-BoxSize  = data.properties['boxsize'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
-
-# read the positions of the dark matter particles
-pos = data.dm['pos'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
-pos = pos.astype(np.float32)
-print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
-print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
-print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout2)
-
-
-############ Ramses_HR ###########
-data = pynbody.load(snap3)
-data.physical_units()
-omega_b, omega_m, unit_l, unit_d, unit_t = read_unit_from_info(data)
-unit_v = unit_l/unit_t
-unit_b = np.sqrt(4*np.pi*unit_d)*unit_v
-print(unit_l, unit_d, unit_t, unit_b)
-print(data.properties.keys())
-Omega_m  = data.properties['omegaM0']
-Omega_l  = data.properties['omegaL0']
-h        = data.properties['h']
-redshift = 1.0/data.properties['a'] - 1.0
-BoxSize  = data.properties['boxsize'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
-
-# read the positions of the dark matter particles
-pos = data.dm['pos'].in_units('Mpc')*h*(1.0+redshift) #Mpc/h
-pos = pos.astype(np.float32)
-print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
-print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
-print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout3)
-
-
-############ Abacus ###########
-BoxSize = 25.0 #Mpc/h
-af  = asdf.open(snap4)
-pos = af['data']['pos'] + BoxSize/2.0
-meta = af['meta']
-print(pos)
-#print(meta)
-print(np.min(pos[:,0]), np.max(pos[:,0]))
-print(np.min(pos[:,1]), np.max(pos[:,1]))
-print(np.min(pos[:,2]), np.max(pos[:,2]))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout4)
-
-
-BoxSize = 25.0 #Mpc/h
-af  = asdf.open(snap11)
-pos = af['data']['pos'] + BoxSize/2.0
-meta = af['meta']
-print(pos)
-#print(meta)
-print(np.min(pos[:,0]), np.max(pos[:,0]))
-print(np.min(pos[:,1]), np.max(pos[:,1]))
-print(np.min(pos[:,2]), np.max(pos[:,2]))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout11)
-
-
-############ PKDGrav ###########
-BoxSize = 25.0 #Mpc/h
-npart, header, p = read_tipsy(snap5)
-pos  = (p['pos']+0.5)*BoxSize  #Mpc/h
-vel  = p['vel']*100.0*BoxSize*np.sqrt(3.0/(8.0*np.pi)) #km/s
-mass = p['mass']*BoxSize**3*rho_crit #Msun/h
-Omega_m = np.sum(mass, dtype=np.float64)/BoxSize**3/rho_crit
-print('scale factor: %.3f'%(header['a']))
-print('redshift:     %.3f'%(1.0/header['a']-1))
-print('particles:    %d'%npart)
-print('Omega_m:      %.4f'%Omega_m)
-print('%.3f < X %.3f'%(np.min(pos[:,0]), np.max(pos[:,0])))
-print('%.3f < Y %.3f'%(np.min(pos[:,1]), np.max(pos[:,1])))
-print('%.3f < Z %.3f'%(np.min(pos[:,2]), np.max(pos[:,2])))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout5)
-
-
-############ PKDGrav_HR ###########
-BoxSize = 25.0 #Mpc/h
-npart, header, p = read_tipsy(snap7)
-pos  = (p['pos']+0.5)*BoxSize  #Mpc/h
-vel  = p['vel']*100.0*BoxSize*np.sqrt(3.0/(8.0*np.pi)) #km/s
-mass = p['mass']*BoxSize**3*rho_crit #Msun/h
-Omega_m = np.sum(mass, dtype=np.float64)/BoxSize**3/rho_crit
-print('scale factor: %.3f'%(header['a']))
-print('redshift:     %.3f'%(1.0/header['a']-1))
-print('particles:    %d'%npart)
-print('Omega_m:      %.4f'%Omega_m)
-print('%.3f < X %.3f'%(np.min(pos[:,0]), np.max(pos[:,0])))
-print('%.3f < Y %.3f'%(np.min(pos[:,1]), np.max(pos[:,1])))
-print('%.3f < Z %.3f'%(np.min(pos[:,2]), np.max(pos[:,2])))
-
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout7)
-
+############# PKDGrav ###########
+for snap,fout in zip([snap7,snap8],[fout7,fout8]):
+    BoxSize = 25.0 #Mpc/h
+    npart, header, p = read_tipsy(snap)
+    pos  = (p['pos']+0.5)*BoxSize  #Mpc/h
+    vel  = p['vel']*100.0*BoxSize*np.sqrt(3.0/(8.0*np.pi)) #km/s
+    mass = p['mass']*BoxSize**3*rho_crit #Msun/h
+    Omega_m = np.sum(mass, dtype=np.float64)/BoxSize**3/rho_crit
+    print('scale factor: %.3f'%(header['a']))
+    print('redshift:     %.3f'%(1.0/header['a']-1))
+    print('particles:    %d'%npart)
+    print('Omega_m:      %.4f'%Omega_m)
+    print('%.3f < X %.3f'%(np.min(pos[:,0]), np.max(pos[:,0])))
+    print('%.3f < Y %.3f'%(np.min(pos[:,1]), np.max(pos[:,1])))
+    print('%.3f < Z %.3f'%(np.min(pos[:,2]), np.max(pos[:,2])))
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
 ########### CUBEP3M #############
-BoxSize = 25.0 #Mpc/h
-pos     = np.load(snap6).astype(np.float32)
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout6)
-
-BoxSize = 25.0 #Mpc/h
-pos     = np.load(snap12).astype(np.float32)
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout12)
-
+for snap,fout in zip([snap9,snap10],[fout9,fout10]):
+    BoxSize = 25.0 #Mpc/h
+    pos     = np.load(snap).astype(np.float32)
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
 ########### Enzo #############
-# read the positions of the particles
-data    = yt.load(snap10)
-ad      = data.all_data()
-BoxSize = data.domain_width.in_units('Mpccm/h').d[0]              #Mpc/h
-pos     = ad[('nbody','particle_position')].in_units('Mpccm/h').d #Mpc/h
-pos     = pos.astype(np.float32)
+for snap,fout in zip([snap11],[fout11]):
+    data    = yt.load(snap)
+    ad      = data.all_data()
+    BoxSize = data.domain_width.in_units('Mpccm/h').d[0]              #Mpc/h
+    pos     = ad[('nbody','particle_position')].in_units('Mpccm/h').d #Mpc/h
+    pos     = pos.astype(np.float32)
+    compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log)
+#################################
 
-# compute Pk
-compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout10)
+############# Gizmo #############
+BoxSize = 25.0 #Mpc/h
+f       = h5py.File(snap12, 'r')
+pos     = f['PartType1/Coordinates'][:]/1e3
+pos     = pos.astype(np.float32)
+print('%.3f < X < %.3f'%(np.min(pos[:,0]),np.max(pos[:,0])))
+print('%.3f < Y < %.3f'%(np.min(pos[:,1]),np.max(pos[:,1])))
+print('%.3f < Z < %.3f'%(np.min(pos[:,2]),np.max(pos[:,2])))
+compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout12, log)
+#################################
+
 

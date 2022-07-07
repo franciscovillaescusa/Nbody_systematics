@@ -117,7 +117,7 @@ rcParams["mathtext.fontset"]='cm'
 #ax1.add_artist(polygon)
 ####################################################################
 
-x_min, x_max = 0.3, 150.0
+x_min, x_max = 0.3, 100.0
 y_min, y_max = 7e-4, 1e3
 
 
@@ -126,25 +126,30 @@ ax1=fig.add_subplot(111)
 
 ax1.set_xscale('log')
 ax1.set_xlim([x_min,x_max])
-ax1.set_ylim([0.93,1.07])
+ax1.set_ylim([0.8,1.2])
 
 ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
 
 
-f_out='Pk_ratio.pdf'
+f_out='Pk_log_ratio.pdf'
 
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/same_seed'
-f1   = '%s/Pk_Gadget.txt'%root
-f2   = '%s/Pk_Gadget_HR.txt'%root
-f3   = '%s/Pk_PKDGrav.txt'%root
-f4   = '%s/Pk_PKDGrav_HR.txt'%root
-f5   = '%s/Pk_Abacus.txt'%root
-f6   = '%s/Pk_Ramses.txt'%root
-f7   = '%s/Pk_Ramses_HR.txt'%root
-f8   = '%s/Pk_cube_nc1024_pp2.txt'%root
-f9   = '%s/Pk_Gizmo.txt'%root
-f10  = '%s/Pk_Enzo3.txt'%root
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Results/Pk'
+f1   = '%s/Pk_log_Gadget.txt'%root
+f2   = '%s/Pk_log_PKDGrav.txt'%root
+f3   = '%s/Pk_log_Abacus.txt'%root
+f4   = '%s/Pk_log_Ramses.txt'%root
+f5   = '%s/Pk_log_CUBEP3M.txt'%root
+f6   = '%s/Pk_log_Enzo3.txt'%root
+
+f7   = '%s/Pk_log_Gadget_HR.txt'%root
+f8   = '%s/Pk_log_PKDGrav_HR.txt'%root
+f9   = '%s/Pk_log_Abacus_HR.txt'%root
+f10  = '%s/Pk_log_Ramses_HR.txt'%root
+f11  = '%s/Pk_log_CUBEP3M_HR.txt'%root
+f12  = '%s/Pk_log_Enzo_HR.txt'%root
+
+f13  = '%s/Pk_log_Gizmo.txt'%root
 
 data1  = np.loadtxt(f1) 
 data2  = np.loadtxt(f2) 
@@ -156,57 +161,51 @@ data7  = np.loadtxt(f7)
 data8  = np.loadtxt(f8) 
 data9  = np.loadtxt(f9) 
 data10 = np.loadtxt(f10) 
+#data11 = np.loadtxt(f11) 
+#data12 = np.loadtxt(f12) 
+data13 = np.loadtxt(f13) 
 
-ax1.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
-ax1.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
+#ax1.fill_between([x_min,x_max],[1.01,1.01],[0.99,0.99],color='k',alpha=0.3)
+#ax1.fill_between([x_min,x_max],[1.02,1.02],[0.98,0.98],color='k',alpha=0.1)
+ax1.plot([32,32],[0.0,2.3],linestyle='--',marker='None',c='k')
+ax1.text(0.3, 0.93, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 # Gadget
 p1,=ax1.plot(data2[:,0],data1[:,1]/data1[:,1],linestyle='-',marker='None',c='b')
-#p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='darkblue')
+#p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='--',marker='None',c='b')
 
 # PKDGrav
-p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
-#p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='darkred')
+p2,=ax1.plot(data2[:,0],data2[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
+#p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='--',marker='None',c='r')
 
 # Abacus
-p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
+#p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='--',marker='None',c='purple')
 
 # Ramses
-p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
-#p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
+p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
+#p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='--',marker='None',c='green')
 
 # CUBEP3M
-p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
-
-# Gizmo
-p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
+p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
 
 # Enzo
-p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='grey')
+p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
 
-ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
+# Gizmo
+p13,=ax1.plot(data2[:,0],data13[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
 
-
-
-#place a label in the plot
-ax1.text(0.05,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p3,p5,p6,p8,p9,p10],
-           ["Gadget", "PKDGrav",
-            "Abacus", "Ramses", 
-            "CUBEP3M", "Gizmo", 
-            "Enzo"],
-           loc=3,prop={'size':10},ncol=3,frameon=True)
+ax1.legend([p1,p2,p3,p4,p5,p6,p13],
+           ["Gadget", "PKDGrav", "Abacus", "Ramses", "CUBEP3M", "Enzo", "Gizmo"],
+           loc=3,prop={'size':14},ncol=3,frameon=True)
 """
-ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
-           ["Gadget", "Gadget HR", 
-            "PKDGrav", "PKDGrav HR", 
-            "Abacus", "CUBEP3M", 
-            "Ramses", "Ramses HR", 
-            "Gizmo", "Enzo"],
-           loc=0,prop={'size':10},ncol=5,frameon=True, bbox_to_anchor=(0.87, 1.03))
-"""            
+ax1.legend([p1,p2,p3,p4,p5,p7,p8,p9,p10,p6],
+           ["Gadget", "PKDGrav", "Abacus", "Ramses", "CUBEP3M",
+            "Gadget HR", "PKDGrav HR", "Abacus HR", "Ramses HR", "Enzo"],
+           loc=3,prop={'size':14},ncol=2,frameon=True)
+"""
   
 
 
