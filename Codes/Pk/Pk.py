@@ -51,7 +51,7 @@ def compute_Pk(grid, pos, BoxSize, MAS, axis, threads, fout, log):
     if log:  delta = np.log10(2.0 + delta)
 
     # compute power spectrum
-    Pk = PKL.Pk(delta, BoxSize, axis, MAS=None, threads=threads, verbose=True)
+    Pk = PKL.Pk(delta, BoxSize, axis, MAS=MAS, threads=threads, verbose=True)
     np.savetxt(fout, np.transpose([Pk.k3D, Pk.Pk[:,0]]))
 
 #################################### INPUT ###########################################
