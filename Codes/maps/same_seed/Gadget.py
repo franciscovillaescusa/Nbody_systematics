@@ -7,8 +7,8 @@ import readgadget
 
 #################################### INPUT ##########################################
 # data parameters
-snapshot     = '/mnt/ceph/users/camels/Sims/Ramses_DM/CV_G_0/snap_033.hdf5'
-fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/comparison/Images_M_Gadget_fiducial_z=0.00.npy'
+snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Gizmo/snap_033.hdf5'
+fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Gadget_fiducial_z=0.00.npy'
 
 # images parameters
 grid         = 256 #images will have grid x grid pixels

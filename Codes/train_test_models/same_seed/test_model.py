@@ -192,7 +192,7 @@ smoothing_train = 0
 # data parameters II
 root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
 sim_train   = 'Gadget'
-sim_test    = 'CUBEP3M'
+sim_test    = 'CUBEP3M_HR_nc2048_pp2'
 z           = 0.0
 f_maps      = ['%s/Images_M_%s_fiducial_z=%.2f.npy'%(root_maps,sim_test,z)]
 f_maps_norm = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget/Images_M_Gadget_LH_z=0.00.npy']

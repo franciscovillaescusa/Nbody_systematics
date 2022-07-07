@@ -121,7 +121,7 @@ fig=figure()
 ax1=fig.add_subplot(111) 
 
 root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
-sim   = 'Enzo3'
+sim   = 'CUBEP3M_HR_nc2048_pp2'
 f_out = '%s_slice.pdf'%sim
 f1    = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
 label = sim

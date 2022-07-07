@@ -7,8 +7,8 @@ import asdf
 
 #################################### INPUT ##########################################
 # data parameters
-snapshot     = '/mnt/ceph/users/lgarrison/CAMELS/CV_G_0/z0.000.asdf'
-fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Abacus_fiducial_z=0.00.npy'
+snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Abacus_HR/z0.000.asdf'
+fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Abacus_HR_fiducial_z=0.00.npy'
 
 # images parameters
 grid         = 256 #images will have grid x grid pixels

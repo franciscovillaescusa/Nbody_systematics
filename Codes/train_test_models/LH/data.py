@@ -408,7 +408,7 @@ class make_dataset_multifield():
         for channel, (fim, fnorm) in enumerate(zip(f_images, f_images_norm)):
 
             # read maps in the considered channel
-            data_c = np.load(fim)
+            data_c = np.load(fim)###/(25.0**2/256**2)  ###### WARNING ########
             if data_c.shape[0]!=total_maps:  raise Exception('sizes do not match')
             if verbose:  
                 print('%.3e < F(all|orig) < %.3e'%(np.min(data_c), np.max(data_c)))
@@ -481,7 +481,7 @@ class make_dataset_multifield():
                 counted_maps += size_maps
             
             if verbose:
-                print('Channel %d contains %d maps'%(channel,counted_maps))
+                print('Channel %d contains %d maps'%(channel,size_maps))
                 print('%.3f < F < %.3f\n'%(np.min(data_c), np.max(data_c)))
                 
         
@@ -505,6 +505,175 @@ class make_dataset_multifield():
         shuffled_map = shuffled_map.view(shape)
         return shuffled_map, self.y[idx]
         """
+        return self.x[idx], self.y[idx]
+
+
+# This class creates the dataset. It will read the maps and store them in memory
+# the rotations and flipings are done when calling the data 
+class make_dataset_Gaussian2():
+
+    def __init__(self, mode, seed, f_images, f_params, f_images_norm, verbose):
+
+        # get the total number of sims and maps
+        params = np.loadtxt(f_params) 
+        if params.ndim==1:  params = np.expand_dims(params, axis=1)
+        total_maps, num_params = params.shape[0], params.shape[1]
+
+        # normalize params
+        minimum  = np.array([0.6])
+        maximum  = np.array([1.4])
+        params   = (params - minimum)/(maximum - minimum)
+
+        # get the size and offset depending on the type of dataset
+        if   mode=='train':  
+            offset, size_maps = int(0.00*total_maps), int(0.90*total_maps)
+        elif mode=='valid':  
+            offset, size_maps = int(0.90*total_maps), int(0.05*total_maps)
+        elif mode=='test':  
+            offset, size_maps = int(0.95*total_maps), int(0.05*total_maps)
+        elif mode=='all':  
+            offset, size_maps = int(0.00*total_maps), int(1.00*total_maps)
+        else:    raise Exception('Wrong name!')
+
+        # randomly shuffle the simulations (not maps). Instead of 0 1 2 3...999 have a 
+        # random permutation. E.g. 5 9 0 29...342
+        np.random.seed(seed)
+        map_numbers = np.arange(total_maps) 
+        np.random.shuffle(map_numbers)
+        map_numbers = map_numbers[offset:offset+size_maps] #select indexes of mode
+
+        # keep only the value of the parameters of the considered maps
+        params = params[map_numbers]
+
+        # define the matrix containing the maps without rotations or flippings
+        channels      = len(f_images)
+        dumb          = np.load(f_images[0])    #[number of maps, height, width]
+        height, width = dumb.shape[1], dumb.shape[2];  del dumb
+        data = np.zeros((size_maps, channels, height, width), dtype=np.float32)
+
+        # read the data
+        print('Found %d channels\nReading data...'%channels)
+        for channel, (fim, fnorm) in enumerate(zip(f_images, f_images_norm)):
+
+            # read maps in the considered channel
+            data_c = np.load(fim)
+            if data_c.shape[0]!=total_maps:  raise Exception('sizes do not match')
+            if verbose:  
+                print('%.3e < F(all|orig) < %.3e'%(np.min(data_c), np.max(data_c)))
+
+            # keep only the data of the chosen set
+            data[:,channel,:,:] = data_c[map_numbers]
+
+            if verbose:
+                print('Channel %d contains %d maps\n'%(channel,size_maps))
+
+        self.size = data.shape[0]
+        self.x    = torch.tensor(data,   dtype=torch.float32)
+        self.y    = torch.tensor(params, dtype=torch.float32)
+        del data, data_c
+
+
+    def __len__(self):
+        return self.size
+
+    def __getitem__(self, idx):
+
+        # choose a rotation angle (0-0, 1-90, 2-180, 3-270)
+        # and whether do flipping or not
+        rot  = np.random.randint(0,4)
+        flip = np.random.randint(0,1)
+        
+        # rotate and flip the maps
+        maps = torch.rot90(self.x[idx], k=rot, dims=[1,2])
+        if flip==1:  maps = torch.flip(maps, dims=[1])
+
+        return maps, self.y[idx]
+
+# This class creates the Gaussian dataset. Rotations and flippings are done and stored
+class make_dataset_Gaussian():
+
+    def __init__(self, mode, seed, f_images, f_params, f_images_norm, verbose):
+
+        # get the total number of sims and maps
+        params_maps = np.loadtxt(f_params) 
+        if params_maps.ndim==1:  params_maps = np.expand_dims(params_maps, axis=1)
+        total_maps, num_params = params_maps.shape[0], params_maps.shape[1]
+
+        # normalize params
+        minimum     = np.array([0.6])
+        maximum     = np.array([1.4])
+        params_maps = (params_maps - minimum)/(maximum - minimum)
+
+        # get the size and offset depending on the type of dataset
+        if   mode=='train':  
+            offset, size_maps = int(0.00*total_maps), int(0.90*total_maps)
+        elif mode=='valid':  
+            offset, size_maps = int(0.90*total_maps), int(0.05*total_maps)
+        elif mode=='test':  
+            offset, size_maps = int(0.95*total_maps), int(0.05*total_maps)
+        elif mode=='all':  
+            offset, size_maps = int(0.00*total_maps), int(1.00*total_maps)
+        else:    raise Exception('Wrong name!')
+
+        # randomly shuffle the maps. Instead of 0 1 2 3...999 have a 
+        # random permutation. E.g. 5 9 0 29...342
+        np.random.seed(seed)
+        map_numbers = np.arange(total_maps) #shuffle sims not maps
+        np.random.shuffle(map_numbers)
+        map_numbers = map_numbers[offset:offset+size_maps] #select indexes of mode
+
+        # keep only the value of the parameters of the considered maps
+        params_maps = params_maps[map_numbers]
+
+        # define the matrix containing the maps with rotations and flipings
+        channels = len(f_images)
+        dumb     = np.load(f_images[0])    #[number of maps, height, width]
+        height, width = dumb.shape[1], dumb.shape[2];  del dumb
+        data     = np.zeros((size_maps*8, channels, height, width), dtype=np.float32)
+        params   = np.zeros((size_maps*8, num_params),              dtype=np.float32)
+
+        # read the data
+        print('Found %d channels\nReading data...'%channels)
+        for channel, (fim, fnorm) in enumerate(zip(f_images, f_images_norm)):
+
+            # read maps in the considered channel
+            data_c = np.load(fim)
+            if data_c.shape[0]!=total_maps:  
+                raise Exception('sizes do not match')
+            if verbose:  
+                print('%.3e < F(all|orig) < %.3e'%(np.min(data_c), np.max(data_c)))
+
+            # keep only the data of the chosen set
+            data_c = data_c[map_numbers]
+
+            # do a loop over all rotations (each is 90 deg)
+            counted_maps = 0
+            for rot in [0,1,2,3]:
+                data_rot = np.rot90(data_c, k=rot, axes=(1,2))
+
+                data[counted_maps:counted_maps+size_maps,channel,:,:] = data_rot
+                params[counted_maps:counted_maps+size_maps]           = params_maps
+                counted_maps += size_maps
+
+                data[counted_maps:counted_maps+size_maps,channel,:,:] = \
+                                                    np.flip(data_rot, axis=1)
+                params[counted_maps:counted_maps+size_maps]           = params_maps
+                counted_maps += size_maps
+            
+            if verbose:
+                print('Channel %d contains %d maps\n'%(channel,counted_maps))
+                
+        
+        self.size = data.shape[0]
+        self.x    = torch.tensor(data,   dtype=torch.float32)
+        self.y    = torch.tensor(params, dtype=torch.float32)
+        del data, data_c
+
+    def __len__(self):
+        return self.size
+
+    def __getitem__(self, idx):
+
         return self.x[idx], self.y[idx]
 
 
@@ -781,18 +950,25 @@ def create_dataset_multifield(mode, seed, f_images, f_params, batch_size, splits
                               f_images_norm, num_workers=1, monopole=True, 
                               monopole_norm=True, rot_flip_in_mem=True, shuffle=True, 
                               just_monopole=False, smoothing=0, smoothing_norm=0, 
-                              verbose=False):
+                              verbose=False, Gaussian=False):
 
-    # whether rotations and flippings are kept in memory
-    if rot_flip_in_mem:
-        data_set = make_dataset_multifield(mode, seed, f_images, f_params, splits, 
-                                           f_images_norm, monopole, monopole_norm, 
-                                           just_monopole, smoothing, smoothing_norm, 
-                                           verbose)
+    if Gaussian:
+        if rot_flip_in_mem:
+            data_set = make_dataset_Gaussian(mode, seed, f_images, f_params, 
+                                             f_images_norm, verbose)
+        else:
+            data_set = make_dataset_Gaussian2(mode, seed, f_images, f_params,
+                                              f_images_norm, verbose)
     else:
-        data_set = make_dataset_multifield2(mode, seed, f_images, f_params, splits, 
-                                            f_images_norm, monopole, monopole_norm, 
-                                            smoothing, smoothing_norm, verbose)
+        if rot_flip_in_mem:
+            data_set = make_dataset_multifield(mode, seed, f_images, f_params, splits, 
+                                               f_images_norm, monopole, monopole_norm, 
+                                               just_monopole, smoothing, smoothing_norm,
+                                               verbose)
+        else:
+            data_set = make_dataset_multifield2(mode, seed, f_images, f_params, splits, 
+                                                f_images_norm, monopole, monopole_norm, 
+                                                smoothing, smoothing_norm, verbose)
 
     data_loader = DataLoader(dataset=data_set, batch_size=batch_size, shuffle=shuffle,
                              num_workers=num_workers)

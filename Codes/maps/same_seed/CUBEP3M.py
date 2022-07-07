@@ -7,8 +7,8 @@ import readgadget
 
 #################################### INPUT ##########################################
 # data parameters
-snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/CUBEP3M/comparison/nc512_pp_range2.npy'
-fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/comparison/Images_M_CUBEP3M_fiducial_z=0.00.npy'
+snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/CUBEP3M/nc1024_pp_range3.npy'
+fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_CUBEP3M_nc1024_pp3_fiducial_z=0.00.npy'
 
 # images parameters
 grid         = 256 #images will have grid x grid pixels

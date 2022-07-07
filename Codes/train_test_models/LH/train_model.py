@@ -230,7 +230,8 @@ beta1 = 0.5
 beta2 = 0.999
 
 # simulation suite
-sim = 'COLA'  
+#sim = 'Gadget_smoothed1_Gadget'  
+sim = 'Gadget_multiresolution'  
 
 # data parameters
 root            = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps'
