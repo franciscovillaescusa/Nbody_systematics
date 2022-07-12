@@ -93,8 +93,16 @@ fout9  = '%s/Pk_%sCUBEP3M.txt'%(root_out,suffix)
 fout10 = '%s/Pk_%sCUBEP3M_HR.txt'%(root_out,suffix)
 
 # Enzo
-snap11 = '%s/Enzo/amr_14/RD0007/RD0007'%root
-fout11 = '%s/Pk_%sEnzo4.txt'%(root_out,suffix)
+#snap11 = '%s/Enzo/default/RD0003/RD0003'%root
+#fout11 = '%s/Pk_%sEnzo1.txt'%(root_out,suffix)
+#snap11 = '%s/Enzo/small_courant/RD0003/RD0003'%root
+#fout11 = '%s/Pk_%sEnzo2.txt'%(root_out,suffix)
+#snap11 = '%s/Enzo/amr/RD0003/RD0003'%root
+#fout11 = '%s/Pk_%sEnzo3.txt'%(root_out,suffix)
+#snap11 = '%s/Enzo/amr_14/RD0007/RD0007'%root
+#fout11 = '%s/Pk_%sEnzo4.txt'%(root_out,suffix)
+snap11 = '%s/Enzo/amr_14_smallc/RD0007/RD0007'%root
+fout11 = '%s/Pk_%sEnzo5.txt'%(root_out,suffix)
 
 # Gizmo
 snap12 = '%s/Gizmo/snap_005.hdf5'%root

@@ -47,6 +47,7 @@ def load_model(storage, study_name, model_rank, root_models, suffix,
     # get the name of the file with the network weights
     fmodel = '%s/weights_Nbody_Mtot_%d_%s.pt'%(root_models, num, suffix)
     #fmodel = '%s/model_%d_%s.pt'%(root_models, num, suffix)
+    print(fmodel)
 
     # load the model weights
     model = architecture.get_architecture(arch+'_err', hidden, dr, channels)
@@ -169,11 +170,10 @@ study_name = 'wd_dr_hidden_lr_%s'%arch
 model_rank = 0 #0 is the best model, 1 is the second best model,...etc
 
 """
-root_models = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/Results/models_Gadget_multiresolution'
+root_models = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/Results/models_Gadget'
 arch        = 'o3'
-suffix      = '%s_smoothing_0'%arch
 channels    = 1
-storage     = 'sqlite:////mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/databases/Gadget_multiresolution_LH_o3_smoothing_0.db'
+storage     = 'sqlite:////mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/databases/Gadget_LH_o3_smoothing_5.db'
 study_name = 'wd_dr_hidden_lr_%s'%arch
 model_rank = 0 #0 is the best model, 1 is the second best model,...etc
 """
@@ -181,24 +181,27 @@ model_rank = 0 #0 is the best model, 1 is the second best model,...etc
 # data parameters
 mode            = 'all'
 seed            = 1
-batch_size      = 32
+batch_size      = 64
 splits          = 15
 monopole_train  = True
 monopole_test   = True
 just_monopole   = False
 smoothing_test  = 0
 smoothing_train = 0
+#suffix          = '%s_smoothing_%d'%(arch,smoothing_train)
 
 # data parameters II
 root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
 sim_train   = 'Gadget'
-sim_test    = 'CUBEP3M_HR_nc2048_pp2'
+sim_test    = 'Enzo5'
 z           = 0.0
 f_maps      = ['%s/Images_M_%s_fiducial_z=%.2f.npy'%(root_maps,sim_test,z)]
 f_maps_norm = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget/Images_M_Gadget_LH_z=0.00.npy']
 f_params    = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/params.txt'
 
 # results
+#fresults = 'Trained_%s_smoothing_%d_tested_%s_smoothing_%d_z=%.2f.txt'\
+#           %(sim_train,smoothing_train,sim_test,smoothing_test,z)
 fresults = 'Trained_%s_tested_%s_z=%.2f.txt'%(sim_train,sim_test,z)
 #######################################################################################
 

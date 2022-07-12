@@ -11,8 +11,10 @@ import yt
 #fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Enzo2_fiducial_z=0.00.npy'
 #snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Enzo/amr/RD0003/RD0003'
 #fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Enzo3_fiducial_z=0.00.npy'
-snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Enzo/amr_14/RD0007/RD0007'
-fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Enzo4_fiducial_z=0.00.npy'
+#snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Enzo/amr_14/RD0007/RD0007'
+#fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Enzo4_fiducial_z=0.00.npy'
+snapshot     = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/Sims/same_seed/Enzo/amr_14_smallc/RD0007/RD0007'
+fout         = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/Images_M_Enzo5_fiducial_z=0.00.npy'
 
 # images parameters
 grid         = 256 #images will have grid x grid pixels

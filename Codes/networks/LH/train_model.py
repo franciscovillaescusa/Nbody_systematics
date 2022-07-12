@@ -231,7 +231,8 @@ beta2 = 0.999
 
 # simulation suite
 #sim = 'Gadget_smoothed1_Gadget'  
-sim = 'Gadget_multiresolution'  
+#sim = 'Gadget_multiresolution'  
+sim = 'Gadget'
 
 # data parameters
 root            = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps'
@@ -245,7 +246,7 @@ splits          = 15              #number of maps per simulation
 monopole        = True  #keep the monopole of the maps (True) or remove it (False)
 params          = [0,1] #0(Om) 1(s8) 2(A_SN1) 3 (A_AGN1) 4(A_SN2) 5(A_AGN2)
 rot_flip_in_mem = True  #whether rotations and flipings are kept in memory
-smoothing       = 0  #Gaussian smoothing in pixels units
+smoothing       = 4     #Gaussian smoothing in pixels units
 label           = '%s_smoothing_%d'%(arch,smoothing)
 #storage_m       = 'sqlite:///my_database.db'
 storage_m       = 'sqlite:///%s/databases/%s_LH_%s_smoothing_%d.db'%(root,sim,arch,smoothing)

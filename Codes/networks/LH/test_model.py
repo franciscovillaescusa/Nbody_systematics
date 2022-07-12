@@ -45,12 +45,13 @@ def load_model(storage, study_name, model_rank, root_models, suffix,
     num, dr, hidden, lr, wd = read_database(storage, study_name, model_rank)
 
     # get the name of the file with the network weights
-    fmodel = '%s/weights_Nbody_Mtot_%d_%s.pt'%(root_models, num, suffix)
-    #fmodel = '%s/model_%d_%s.pt'%(root_models, num, suffix)
+    #fmodel = '%s/weights_Nbody_Mtot_%d_%s.pt'%(root_models, num, suffix)
+    fmodel = '%s/model_%d_%s.pt'%(root_models, num, suffix)
+    print(fmodel)
 
     # load the model weights
     model = architecture.get_architecture(arch+'_err', hidden, dr, channels)
-    model = nn.DataParallel(model)
+    #model = nn.DataParallel(model)
     model.to(device=device)
     network_total_params = sum(p.numel() for p in model.parameters())
     print('total number of parameters in the model = %d'%network_total_params)
@@ -156,6 +157,7 @@ def test_model(test_loader, model, device, fresults):
 
 
 ######################################### INPUT #######################################
+"""
 # model parameters
 root        = '/mnt/ceph/users/camels/PUBLIC_RELEASE/CMD/2D_maps'
 root_models = '%s/inference/weights'%root
@@ -167,47 +169,46 @@ channels    = 1
 storage    = 'sqlite:///%s/inference/databases/Nbody_%s_Mtot_%s.db'%(root,arch,suffix)
 study_name = 'wd_dr_hidden_lr_%s'%arch
 model_rank = 0 #0 is the best model, 1 is the second best model,...etc
+"""
 
-"""
-root_models = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/Results/models_Gadget_multiresolution'
+root_models = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/Results/models_Gadget'
 arch        = 'o3'
-suffix      = '%s_smoothing_0'%arch
 channels    = 1
-storage     = 'sqlite:////mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/databases/Gadget_multiresolution_LH_o3_smoothing_0.db'
-study_name = 'wd_dr_hidden_lr_%s'%arch
-model_rank = 0 #0 is the best model, 1 is the second best model,...etc
-"""
+storage     = 'sqlite:////mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/databases/Gadget_LH_o3_smoothing_5.db'
+study_name  = 'wd_dr_hidden_lr_%s'%arch
+model_rank  = 0 #0 is the best model, 1 is the second best model,...etc
+
 
 # data parameters
-mode            = 'all'
+mode            = 'test'
 seed            = 1
-batch_size      = 32
+batch_size      = 64
 splits          = 15
 monopole_train  = True
 monopole_test   = True
 just_monopole   = False
-smoothing_test  = 0
-smoothing_train = 0
+smoothing_test  = 5
+smoothing_train = 5
+suffix          = '%s_smoothing_%d'%(arch,smoothing_train)
 
 # data parameters II
-root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
-#root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps'
+root_maps   = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget'
 #sim_train   = 'Gadget_smoothing1_Gadget'
 #sim_train   = 'Gadget_multiresolution'
 sim_train   = 'Gadget'
-sim_test    = 'Enzo4'
+sim_test    = 'Gadget'
 z           = 0.0
 #f_maps      = ['%s/maps_%s/Images_M_%s_LH_z=%.2f.npy'%(root_maps,sim_test,sim_test,z)]
 #f_params    = '%s/maps_%s/params_%s.txt'%(root_maps,sim_test,sim_test)
 #f_maps_norm = ['%s/maps_%s/Images_M_%s_LH_z=%.2f.npy'%(root_maps,sim_train,sim_train,z)]
 #f_maps_norm = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget/Images_M_Gadget_LH_z=0.00.npy']
 #f_maps      = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget_192/Images_M_Gadget_192_test_z=0.00.npy']
-f_maps      = ['%s/Images_M_%s_fiducial_z=%.2f.npy'%(root_maps,sim_test,z)]
+f_maps      = ['%s/Images_M_%s_LH_z=%.2f.npy'%(root_maps,sim_test,z)]
 f_maps_norm = ['/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget/Images_M_Gadget_LH_z=0.00.npy']
-f_params    = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed/params.txt'
+f_params    = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/maps_Gadget/params_Gadget.txt'
 
 # results
-fresults = 'Trained_%s_tested_%s_z=%.2f.txt'%(sim_train,sim_test,z)
+fresults = 'Trained_%s_smoothing_5_tested_%s_smoothing_5_z=%.2f.txt'%(sim_train,sim_test,z)
 #######################################################################################
 
 # use GPUs if available

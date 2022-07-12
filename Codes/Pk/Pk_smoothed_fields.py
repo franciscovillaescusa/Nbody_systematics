@@ -24,8 +24,8 @@ def Pk(grid, pos, BoxSize, MAS, W_k, threads, fout1, fout2):
     print('%.5e'%np.mean(delta))
     print('%.5e'%np.mean(delta_smoothed))
 
-    delta          = np.log10(1.0+delta)
-    delta_smoothed = np.log10(1.0+delta_smoothed)
+    #delta          = np.log10(1.0+delta)
+    #delta_smoothed = np.log10(1.0+delta_smoothed)
 
     # compute Pk
     Pk = PKL.Pk(delta, BoxSize, axis, MAS=MAS, threads=threads, verbose=True)
@@ -55,7 +55,7 @@ axis    = 0
 
 # smoothing parameters
 BoxSize = 25.0 #Mpc/h
-R       = BoxSize/grid*6  #Mpc/h
+R       = BoxSize/grid*2  #Mpc/h
 Filter  = 'Gaussian'
 threads = 1
 #####################################################################################
