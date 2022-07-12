@@ -149,7 +149,7 @@ f_out='Inference_same_seed.pdf'
 ax1.plot([-10,200],[0.3175,0.3175], lw=1, c='k')
 ax2.plot([-10,200],[0.834, 0.834],  lw=1, c='k')
 
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models/same_seed'
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/networks/same_seed'
 
 f1  = '%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root
 f2  = '%s/Trained_Gadget_tested_Gadget_HR_z=0.00.txt'%root
@@ -159,7 +159,7 @@ f5  = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
 f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
 f7  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
 f8  = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
-f9  = '%s/Trained_Gadget_tested_Enzo3_z=0.00.txt'%root
+f9  = '%s/Trained_Gadget_tested_Enzo5_z=0.00.txt'%root
 f10 = '%s/Trained_Gadget_tested_Gizmo_HR_z=0.00.txt'%root
 #f11 = '%s/Trained_Gadget_tested_CUBEP3M_nc1024_pp2_z=0.00.txt'%root
 f11 = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
