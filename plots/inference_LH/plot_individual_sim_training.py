@@ -124,7 +124,15 @@ splits = 15
 #########################################################
 
 # get the name of the files
-root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models'
+#root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Codes/train_test_models'
+root = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/PUBLIC/Results/networks/LH'
+
+f_ins  = ['%s/Trained_Gadget_smoothing_0_tested_Gadget_smoothing_0_z=0.00.txt'%root]
+f_outs = ['Trained_Gadget_smoothing_0_tested_Gadget_smoothing_0_z=0.00.pdf']
+labels = ['Train in Gadget ; test in Gadget']
+
+
+"""
 f_ins = ['%s/Trained_Gadget_tested_Gadget_z=0.00.txt'%root,
          '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root,
          '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root,
@@ -178,6 +186,7 @@ labels = ['Train on Gadget ----> test on Gadget',
           'Train on Gadget Nbody+Hydro ----> test on Gadget',
           'Train on Gadget Nbody+Hydro ----> test on Abacus',
           'Train on Gadget Nbody+Hydro ----> test on Ramses']
+"""
 
 for fin, fout, label in zip(f_ins, f_outs, labels):
     np.random.seed(17) #4
@@ -186,16 +195,22 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
     data = np.loadtxt(fin)
 
     # compute statistics
-    abs_error = np.zeros(2, dtype=np.float32)
+    #abs_error = np.zeros(2, dtype=np.float32)
+    #bias      = np.zeros(2, dtype=np.float32)
     rel_error = np.zeros(2, dtype=np.float32)
-    bias      = np.zeros(2, dtype=np.float32)
+    R2        = np.zeros(2, dtype=np.float32)
+    RMSE      = np.zeros(2, dtype=np.float32)
     chi2      = np.zeros(2, dtype=np.float32)
 
     for i in range(2):
-        abs_error[i] = np.mean(np.absolute(data[:,12+i]))
-        rel_error[i] = np.mean(np.absolute(data[:,12+i])/np.absolute(data[:,6+i]))
-        bias[i]      = np.mean(data[:,6+i] - data[:,i])
-        chi2[i]      = np.mean((data[:,6+i]-data[:,i])**2/data[:,12+i]**2)
+        true, mean, error = data[:,i], data[:,6+i], data[:,12+i]
+        rel_error[i] = np.mean(np.absolute(true-mean)/true)
+        R2[i]        = 1.0 - np.mean((true-mean)**2)/np.mean((true-np.mean(true))**2)
+        RMSE[i]      = np.sqrt(np.mean((true-mean)**2))
+        chi2[i]      = np.mean((true-mean)**2/error**2)
+        #abs_error[i] = np.mean(np.absolute(data[:,12+i]))
+        #rel_error[i] = np.mean(np.absolute(data[:,12+i])/np.absolute(data[:,6+i]))
+        #bias[i]      = np.mean(data[:,6+i] - data[:,i])
 
     num_sims     = data.shape[0]/8/splits
     unique_maps  = num_sims*splits
@@ -207,12 +222,12 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
     ax2 = fig.add_subplot(122) 
 
     subplots_adjust(left=None, bottom=None, right=None, top=None,
-                    wspace=0.13, hspace=0.1)
+                    wspace=0.10, hspace=0.1)
 
     for ax in [ax1,ax2]:
         ax.set_xlabel(r'${\rm True}$',      fontsize=18)
     for ax in [ax1]:
-        ax.set_ylabel(r'${\rm Prediction}$',fontsize=18)
+        ax.set_ylabel(r'${\rm Inference}$',fontsize=18)
 
     Om = data[:,0]
     indexes = np.argsort(Om)
@@ -236,13 +251,13 @@ for fin, fout, label in zip(f_ins, f_outs, labels):
                         elinewidth=1, capsize=0, linestyle='None', c=time_color[k]) 
 
         ax.plot([minimum,maximum],[minimum,maximum], ls='-', c='k')
-        ax.text(0.69,0.27, r"$\epsilon=%.4f\,(%.2f$"%(abs_error[i],100*rel_error[i])+'%)',
+        ax.text(0.73,0.22, r"$\epsilon=%.2f$"%(100*rel_error[i])+'%',
                 fontsize=16, color='k', transform=ax.transAxes)
-        #ax.text(0.72,0.20, r"$\bar{\epsilon}=%.3f$"%rel_error[i]+'%', fontsize=16, 
-        #        color='k', transform=ax.transAxes)
-        ax.text(0.70,0.20, r"$b=%.4f$"%bias[i], fontsize=16, color='k',
+        ax.text(0.73,0.16, r"${\rm RMSE}=%.4f$"%RMSE[i],
+                fontsize=16, color='k', transform=ax.transAxes)
+        ax.text(0.73,0.10, r"$R^2=%.3f$"%R2[i], fontsize=16, color='k',
                 transform=ax.transAxes)
-        ax.text(0.69,0.13, r"$\chi^2=%.2f$"%chi2[i], fontsize=16, color='k',
+        ax.text(0.73,0.04, r"$\chi^2=%.2f$"%chi2[i], fontsize=16, color='k',
                 transform=ax.transAxes)
 
     #place a label in the plot
