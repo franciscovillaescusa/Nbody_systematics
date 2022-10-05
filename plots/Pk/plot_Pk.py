@@ -126,7 +126,7 @@ ax1=fig.add_subplot(111)
 
 ax1.set_xscale('log')
 ax1.set_xlim([x_min,x_max])
-ax1.set_ylim([0.93,1.07])
+ax1.set_ylim([0.93,1.03])
 
 ax1.set_xlabel(r'$k\/[h\/{\rm Mpc}^{-1}]$',fontsize=18)
 ax1.set_ylabel(r'$P(k)/P_{\rm Gadget}(k)$',fontsize=18)
@@ -144,7 +144,7 @@ f6   = '%s/Pk_Ramses.txt'%root
 f7   = '%s/Pk_Ramses_HR.txt'%root
 f8   = '%s/Pk_CUBEP3M.txt'%root
 f9   = '%s/Pk_Gizmo.txt'%root
-f10  = '%s/Pk_Enzo3.txt'%root
+f10  = '%s/Pk_Enzo5.txt'%root
 
 data1  = np.loadtxt(f1) 
 data2  = np.loadtxt(f2) 
@@ -179,7 +179,7 @@ p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='gre
 p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
 
 # Gizmo
-p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
+#p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
 
 # Enzo
 p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
@@ -192,11 +192,10 @@ ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 ax1.text(0.05,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p3,p5,p6,p8,p9,p10],
+ax1.legend([p1,p3,p5,p6,p8,p10],
            ["Gadget", "PKDGrav",
             "Abacus", "Ramses", 
-            "CUBEP3M", "Gizmo", 
-            "Enzo"],
+            "CUBEP3M", "Enzo"],
            loc=3,prop={'size':10},ncol=3,frameon=True)
 """
 ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
