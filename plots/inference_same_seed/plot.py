@@ -240,7 +240,7 @@ ax2.errorbar(x+elems*4+4,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
              ms=2, elinewidth=1,capsize=5,linestyle='None', c='darkgreen') 
 # Enzo + Gizmo
 ax2.errorbar(x+elems*5+5,data11[indexes,7],yerr=data11[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='darkorange')
+             elinewidth=1,capsize=5,linestyle='None', c='orange')
 #ax2.errorbar(x+elems*5+5,data12[indexes,7],yerr=data12[indexes,13],lw=1,fmt='o',ms=2,
 #             elinewidth=1,capsize=5,linestyle='None', c='darkorange') 
 
