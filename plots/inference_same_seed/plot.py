@@ -154,10 +154,10 @@ f3  = '%s/Trained_Gadget_tested_PKDGrav_z=0.00.txt'%root
 f4  = '%s/Trained_Gadget_tested_PKDGrav_HR_z=0.00.txt'%root
 f5  = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
 f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
-f7  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
-f8  = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
-f9  = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
-f10 = '%s/Trained_Gadget_smoothing_0_tested_CUBEP3M_HR_smoothing_0_z=0.00.txt'%root
+f7  = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
+f8  = '%s/Trained_Gadget_smoothing_0_tested_CUBEP3M_HR_smoothing_0_z=0.00.txt'%root
+f9  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
+f10 = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
 f11 = '%s/Trained_Gadget_tested_Enzo5_z=0.00.txt'%root
 f12 = '%s/Trained_Gadget_tested_Gizmo_HR_z=0.00.txt'%root
 
@@ -168,10 +168,10 @@ data3  = np.loadtxt(f3)  #PKDGrav
 data4  = np.loadtxt(f4)  #PKDGrav_HR
 data5  = np.loadtxt(f5)  #Abacus
 data6  = np.loadtxt(f6)  #Abacus_HR
-data7  = np.loadtxt(f7)  #Ramses
-data8  = np.loadtxt(f8)  #Ramses_HR
-data9  = np.loadtxt(f9)  #CUBEP3M
-data10 = np.loadtxt(f10) #CUBEP3M_HR
+data7  = np.loadtxt(f7)  #CUBEP3M
+data8  = np.loadtxt(f8)  #CUBEP3M_HR
+data9  = np.loadtxt(f9)  #Ramses
+data10 = np.loadtxt(f10) #Ramses_HR
 data11 = np.loadtxt(f11) #Enzo
 data12 = np.loadtxt(f12) #Gizmo
 
@@ -192,19 +192,19 @@ p4=ax1.errorbar(x+elems*1+1,data4[indexes,6],yerr=data4[indexes,12],lw=1,fmt='o'
                 elinewidth=1,capsize=5,linestyle='None', c='darkred') 
 # Abacus
 p5=ax1.errorbar(x+elems*2+2,data5[indexes,6],yerr=data5[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None', c='violet')
+                elinewidth=1,capsize=5,linestyle='None', c='magenta')
 p6=ax1.errorbar(x+elems*2+2,data6[indexes,6],yerr=data6[indexes,12],lw=1,fmt='o',
-                ms=2,elinewidth=1,capsize=5,linestyle='None', c='darkviolet')
-# Ramses 
+                ms=2,elinewidth=1,capsize=5,linestyle='None', c='darkmagenta')
+# CUBEP3M 
 p7=ax1.errorbar(x+elems*3+3,data7[indexes,6],yerr=data7[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
+                elinewidth=1,capsize=5,linestyle='None',c='gold') 
 p8=ax1.errorbar(x+elems*3+3,data8[indexes,6],yerr=data8[indexes,12],lw=1,fmt='o',ms=2,
-                elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
-# CUBEP3M
+                elinewidth=1,capsize=5,linestyle='None',c='goldenrod') 
+# Ramses
 p9=ax1.errorbar(x+elems*4+4,data9[indexes,6],yerr=data9[indexes,12],lw=1,fmt='o',
-                ms=2,elinewidth=1,capsize=5,linestyle='None', c='gold') 
+                ms=2,elinewidth=1,capsize=5,linestyle='None', c='lime') 
 p10=ax1.errorbar(x+elems*4+4,data10[indexes,6],yerr=data10[indexes,12],lw=1,fmt='o',
-                 ms=2, elinewidth=1,capsize=5,linestyle='None', c='goldenrod') 
+                 ms=2, elinewidth=1,capsize=5,linestyle='None', c='darkgreen') 
 # Enzo + Gizmo
 p11=ax1.errorbar(x+elems*5+5,data11[indexes,6],yerr=data11[indexes,12],lw=1,fmt='o',
                  ms=2,elinewidth=1,capsize=5,linestyle='None', c='orange')
@@ -225,19 +225,19 @@ ax2.errorbar(x+elems*1+1,data4[indexes,7],yerr=data4[indexes,13],lw=1,fmt='o',ms
              elinewidth=1,capsize=5,linestyle='None', c='darkred') 
 # Abacus
 ax2.errorbar(x+elems*2+2,data5[indexes,7],yerr=data5[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='violet')
+             elinewidth=1,capsize=5,linestyle='None', c='magenta')
 ax2.errorbar(x+elems*2+2,data6[indexes,7],yerr=data6[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='darkviolet')
-# Ramses
-ax2.errorbar(x+elems*3+3,data7[indexes,7],yerr=data7[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None',c='lightgreen') 
-ax2.errorbar(x+elems*3+3,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None',c='darkgreen') 
+             elinewidth=1,capsize=5,linestyle='None', c='darkmagenta')
 # CUBEP3M
+ax2.errorbar(x+elems*3+3,data7[indexes,7],yerr=data7[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None',c='gold') 
+ax2.errorbar(x+elems*3+3,data8[indexes,7],yerr=data8[indexes,13],lw=1,fmt='o',ms=2,
+             elinewidth=1,capsize=5,linestyle='None',c='goldenrod') 
+# Ramses
 ax2.errorbar(x+elems*4+4,data9[indexes,7],yerr=data9[indexes,13],lw=1,fmt='o',ms=2,
-             elinewidth=1,capsize=5,linestyle='None', c='gold') 
+             elinewidth=1,capsize=5,linestyle='None', c='lime') 
 ax2.errorbar(x+elems*4+4,data10[indexes,7],yerr=data10[indexes,13],lw=1,fmt='o',
-             ms=2, elinewidth=1,capsize=5,linestyle='None', c='goldenrod') 
+             ms=2, elinewidth=1,capsize=5,linestyle='None', c='darkgreen') 
 # Enzo + Gizmo
 ax2.errorbar(x+elems*5+5,data11[indexes,7],yerr=data11[indexes,13],lw=1,fmt='o',ms=2,
              elinewidth=1,capsize=5,linestyle='None', c='darkorange')
@@ -255,10 +255,10 @@ ax1.legend([p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11],
             r"${\rm PKDGrav\,\,HR}$",
             r"${\rm Abacus}$",
             r"${\rm Abacus\,\,HR}$",
-            r"${\rm Ramses}$",
-            r"${\rm Ramses\,\,HR}$",
             r"${\rm CUBEP3M}$",
             r"${\rm CUBEP3M\,\,HR}$",
+            r"${\rm Ramses}$",
+            r"${\rm Ramses\,\,HR}$",
             r"${\rm Enzo}$",
             #r"${\rm Gizmo\,\,HR}$"
            ],

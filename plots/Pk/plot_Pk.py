@@ -169,20 +169,20 @@ p3,=ax1.plot(data2[:,0],data3[:,1]/data1[:,1],linestyle='-',marker='None',c='r')
 #p4,=ax1.plot(data2[:,0],data4[:,1]/data1[:,1],linestyle='-',marker='None',c='darkred')
 
 # Abacus
-p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='purple')
-
-# Ramses
-p6,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='green')
-#p7,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
+p5,=ax1.plot(data2[:,0],data5[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
 
 # CUBEP3M
-p8,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
+p6,=ax1.plot(data2[:,0],data8[:,1]/data1[:,1],linestyle='-',marker='None',c='gold')
+
+# Ramses
+p7,=ax1.plot(data2[:,0],data6[:,1]/data1[:,1],linestyle='-',marker='None',c='lime')
+#p8,=ax1.plot(data2[:,0],data7[:,1]/data1[:,1],linestyle='-',marker='None',c='darkgreen')
 
 # Gizmo
 #p9,=ax1.plot(data2[:,0],data9[:,1]/data1[:,1],linestyle='-',marker='None',c='cyan')
 
 # Enzo
-p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='magenta')
+p10,=ax1.plot(data2[:,0],data10[:,1]/data1[:,1],linestyle='-',marker='None',c='orange')
 
 ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 
@@ -192,11 +192,10 @@ ax1.plot([32,32],[0.9,1.1],linestyle='--',marker='None',c='k')
 ax1.text(0.05,0.9, r"$z=0$", fontsize=18, color='k',transform=ax1.transAxes)
 
 #legend
-ax1.legend([p1,p3,p5,p6,p8,p10],
-           ["Gadget", "PKDGrav",
-            "Abacus", "Ramses", 
-            "CUBEP3M", "Enzo"],
-           loc=3,prop={'size':10},ncol=3,frameon=True)
+ax1.legend([p1,p3,p5,p6,p7,p10],
+           ["Gadget", "PKDGrav", "Abacus",
+            "CUBEP3M", "Ramses", "Enzo"],
+           loc=3,prop={'size':10},ncol=2,frameon=True)
 """
 ax1.legend([p1,p8, p2,p9, p3, p6, p4,p5,p7,p10],
            ["Gadget", "Gadget HR", 
