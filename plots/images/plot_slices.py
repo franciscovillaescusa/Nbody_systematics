@@ -117,57 +117,64 @@ rcParams["mathtext.fontset"]='cm'
 #ax1.add_artist(polygon)
 ####################################################################
 
-fig=figure()
-ax1=fig.add_subplot(111) 
+for sim in ['Gadget',  'Gadget_HR',
+            'PKDGrav', 'PKDGrav_HR',
+            'CUBEP3M', 'CUBEP3M_HR',
+            'Ramses',  'Ramses_HR',
+            'Abacus',  'Abacus_HR',
+            'Enzo', 'Enzo2', 'Enzo3', 'Enzo5',
+            'Gizmo']:
 
-root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
-sim   = 'CUBEP3M_HR_nc2048_pp2'
-f_out = '%s_slice.pdf'%sim
-f1    = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
-label = sim
-slice_num = 4
+    fig=figure()
+    ax1=fig.add_subplot(111) 
 
-df = np.load(f1)
-df = df[slice_num]
-print(df.shape)
+    root  = '/mnt/ceph/users/fvillaescusa/Nbody_systematics/data/maps/same_seed'
+    f_out = '%s_slice.pdf'%sim
+    f1    = '%s/Images_M_%s_fiducial_z=0.00.npy'%(root,sim)
+    label = sim
+    slice_num = 4
 
-print('%.3e < df < %.3e'%(np.min(df), np.max(df)))
-min_density, max_density = 1e8, 8e12
+    df = np.load(f1)
+    df = df[slice_num]
+    print(df.shape)
 
-cax = ax1.imshow(df,cmap=get_cmap('nipy_spectral'),origin='lower',
-                 interpolation='bicubic',
-                 #extent=[x_min, x_max, y_min, y_max],
-                 #vmin=min_density,vmax=max_density)
-                 norm = LogNorm(vmin=min_density,vmax=max_density))
-cbar = fig.colorbar(cax, ax=ax1, ticks=[-1, 0, 1]) #in ax2 colorbar of ax1
-#cbar.set_label(r"$M_{]$",fontsize=14,labelpad=-50)
-#cbar.ax.tick_params(labelsize=10)  #to change size of ticks
+    print('%.3e < df < %.3e'%(np.min(df), np.max(df)))
+    min_density, max_density = 1e10, 8e14
 
+    cax = ax1.imshow(df,cmap=get_cmap('nipy_spectral'),origin='lower',
+                     interpolation='bicubic',
+                     #extent=[x_min, x_max, y_min, y_max],
+                     #vmin=min_density,vmax=max_density)
+                     norm = LogNorm(vmin=min_density,vmax=max_density))
+    cbar = fig.colorbar(cax, ax=ax1, ticks=[-1, 0, 1]) #in ax2 colorbar of ax1
+    #cbar.set_label(r"$M_{]$",fontsize=14,labelpad=-50)
+    #cbar.ax.tick_params(labelsize=10)  #to change size of ticks
 
-#p1,=ax1.plot(x,y,linestyle='-',marker='None')
-
-
-#place a label in the plot
-#ax1.text(0.2,0.1, r"$z=4.0$", fontsize=22, color='k',transform=ax1.transAxes)
-
-#legend
-#ax1.legend([p1,p2],
-#           [r"$z=3$",
-#            r"$z=4$"],
-#           loc=0,prop={'size':18},ncol=1,frameon=True)
-            
-            #columnspacing=2,labelspacing=2)
+    
+    #p1,=ax1.plot(x,y,linestyle='-',marker='None')
 
 
+    #place a label in the plot
+    #ax1.text(0.2,0.1, r"$z=4.0$", fontsize=22, color='k',transform=ax1.transAxes)
+
+    #legend
+    #ax1.legend([p1,p2],
+    #           [r"$z=3$",
+    #            r"$z=4$"],
+    #           loc=0,prop={'size':18},ncol=1,frameon=True)
+    
+    #columnspacing=2,labelspacing=2)
 
 
-ax1.set_title(label,position=(0.5,1.02),size=18)
-#title('About as simple as it gets, folks')
-#suptitle('About as simple as it gets, folks')  #for title with several panels
-#grid(True)
-#show()
-savefig(f_out, bbox_inches='tight')
-close(fig)
+
+
+    ax1.set_title(label,position=(0.5,1.02),size=18)
+    #title('About as simple as it gets, folks')
+    #suptitle('About as simple as it gets, folks')  #for title with several panels
+    #grid(True)
+    #show()
+    savefig(f_out, bbox_inches='tight')
+    close(fig)
 
 
 
