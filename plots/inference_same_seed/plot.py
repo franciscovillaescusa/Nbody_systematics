@@ -156,7 +156,8 @@ f5  = '%s/Trained_Gadget_tested_Abacus_z=0.00.txt'%root
 f6  = '%s/Trained_Gadget_tested_Abacus_HR_z=0.00.txt'%root
 f7  = '%s/Trained_Gadget_tested_CUBEP3M_z=0.00.txt'%root
 f8  = '%s/Trained_Gadget_smoothing_0_tested_CUBEP3M_HR_smoothing_0_z=0.00.txt'%root
-f9  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
+#f9  = '%s/Trained_Gadget_tested_Ramses_z=0.00.txt'%root
+f9  = '%s/Trained_Gadget_smoothing_0_tested_Ramses2_smoothing_0_z=0.00.txt'%root
 f10 = '%s/Trained_Gadget_tested_Ramses_HR_z=0.00.txt'%root
 f11 = '%s/Trained_Gadget_smoothing_0_tested_Enzo6_smoothing_0_z=0.00.txt'%root
 f12 = '%s/Trained_Gadget_tested_Gizmo_HR_z=0.00.txt'%root
