@@ -165,7 +165,7 @@ df_Gadget = np.load(f1)
 df_Gadget = df_Gadget[slice_num]
 
 for sim,axa,axb,axc,axd in zip(['Gadget', 'Abacus', 'CUBEP3M',
-                                'PKDGrav', 'Ramses', 'Enzo6'],
+                                'PKDGrav', 'Ramses', 'Enzo7'],
                                [ax1,ax2,ax3,ax4,ax5,ax6],
                                [ax7,ax8,ax9,ax10,ax11,ax12],
                                [ax13,ax14,ax15,ax16,ax17,ax18],

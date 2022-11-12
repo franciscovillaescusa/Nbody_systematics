@@ -144,7 +144,7 @@ f6   = '%s/Pk_Ramses.txt'%root
 f7   = '%s/Pk_Ramses_HR.txt'%root
 f8   = '%s/Pk_CUBEP3M.txt'%root
 f9   = '%s/Pk_Gizmo.txt'%root
-f10  = '%s/Pk_Enzo6.txt'%root
+f10  = '%s/Pk_Enzo7.txt'%root
 
 data1  = np.loadtxt(f1) 
 data2  = np.loadtxt(f2) 
